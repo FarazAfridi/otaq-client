@@ -1,0 +1,131 @@
+.header {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  z-index: 4;
+  width: 100%;
+  max-width: 500px;
+  min-width: 300px;
+  padding: 0 10px;
+}
+
+.header__search_container {
+  display: flex;
+  border: 1px solid #dddddd;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 5%);  width: inherit;
+  height: 65px;
+  border-radius: 50px;
+  overflow: hidden;
+  justify-content: space-around;
+  background-color: white;
+}
+
+.header__buttons {
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+  margin-left: 10px;
+}
+
+.header__button {
+  background-color: #fff;
+  outline: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #525252;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #DDDDDD;
+}
+
+.header__search_button {
+  display: flex;
+  width: 130px;
+  justify-content: space-between;
+
+} 
+
+.header__search_icon {
+  background-color: #FF385C;
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto 0;
+}
+
+.header__search_icon > svg {
+  fill: #fff;
+
+}
+
+.home_button {
+  width: 150px;
+  height: 45px;
+  outline: none;
+  background-color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.home_button:hover {
+  background-color: #F7F7F7;
+}
+
+.globe_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto 0;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.globe_icon:hover {
+  background-color: #F7F7F7; 
+}
+
+.account-options {
+  display: flex;
+  align-items: center;
+  height: 45px;
+  padding: 5px 12px;
+  border-radius: 25px;
+  column-gap: 10px;
+  cursor: pointer;
+  transition: 0.2s linear;
+  border: 1px solid #DDDDDD;
+}
+
+.account-options:hover {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+}
+.header--items--container {
+  display: flex;
+  align-items: center;
+  height: 45px;
+  margin-left: auto;
+  justify-content: center;
+  width: 100%;
+}
+.account-options__icon--container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+}
+.header__account--options {
+  display: flex;
+}

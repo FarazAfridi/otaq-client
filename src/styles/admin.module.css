@@ -1,0 +1,149 @@
+.admin--panel--container {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin--options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+  border-bottom: 1px solid #dddddd;
+  padding: 20px;
+}
+
+.buttons--container {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  column-gap: 10px;
+}
+
+.order-top {
+  display: flex;
+  /* flex-wrap: wrap; */
+  align-items: center;
+  justify-content: space-between;
+  min-height: 50px;
+  width: 100%;
+  border-bottom: 1px solid #dddddd;
+  padding: 10px;
+}
+
+.order-top > span {
+  width: calc(100% / 5);
+}
+.order-top > span:first-child {
+  min-width: 100px;
+  width: 300px;
+}
+.order-top > span:last-child {
+  min-width: 100px;
+  width: 100px;
+}
+
+@media screen and (max-width: 600px) {
+  .admin--options {
+    justify-content: center;
+  }
+  .buttons--container {
+    justify-content: space-between;
+  }
+}
+
+.unapproved-places {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-evenly;
+  gap: 20px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.content_container {
+  width: 100%;
+  border-left: 1px solid #dddddd;
+  border-right: 1px solid #dddddd;
+}
+
+.admin--panel {
+  display: flex;
+}
+
+.admin--sidebar {
+  width: 300px;
+}
+
+.admin--sidebar > button {
+  width: 100%;
+  border-radius: 0;
+  border-top: none;
+  text-decoration: none !important;
+  border-right: none;
+  height: 75px;
+}
+
+.card_main_container {
+  display: flex;
+  justify-content: center;
+}
+
+.section-top--card {
+  width: 100%;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dddddd;
+  border-top: none;
+  border-left: none;
+  cursor: default;
+}
+
+.section-top--card:hover {
+  background-color: #f7f7f7;
+}
+
+.section-top--card > h2 {
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.dashboard_cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  row-gap: 25px;
+  column-gap: 30px;
+  margin-top: 20px;
+}
+
+.dashboard_card {
+  width: 45%;
+  height: 150px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard_card_upper_child {
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: 15px;
+}
+
+.dashboard_card_lower_child {
+  display: flex;
+  height: 30%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+}

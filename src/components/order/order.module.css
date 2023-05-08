@@ -1,0 +1,28 @@
+.order-table {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 50px;
+  width: 100%;
+  border-bottom: 1px solid #dddddd;
+  padding: 10px;
+}
+
+.order-item {
+  width: calc(100%/5);
+  min-width: fit-content;
+}
+
+.order-table:hover {
+  background-color: #F7F7F7 !important;
+}
+
+.order-item:first-child {
+  min-width: 100px;
+  width: 300px;
+}
+.order-item:last-child {
+  min-width: 100px;
+  width: 100px;
+}

@@ -1,0 +1,245 @@
+.card-page {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 120px;
+}
+
+.main-content {
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+}
+
+.card--banner {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.text--container {
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 10px;
+}
+.text--container > h2 {
+  font-size: 30px;
+  font-weight: 300;
+}
+.extra--info {
+  display: flex;
+  justify-content: space-between;
+}
+.extra--info > div {
+  display: flex;
+  column-gap: 10px;
+}
+
+.extra--info > div a {
+  color: black;
+  font-size: 14px;
+}
+
+.icon-text {
+  display: flex;
+  column-gap: 5px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon-text > img {
+  width: 14px;
+  height: 14px;
+}
+.extra-apartment-info {
+  width: 100%;
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+  margin-top: 20px;
+}
+.extra-apartment-info > h2 {
+  font-size: 30px;
+  font-weight: 300;
+}
+.apartment--description > strong {
+  font-weight: 500;
+}
+.extra-apartment-info > span, .apartment--description > p {
+  font-weight: 300;
+}
+.extra-apartment-info > ul {
+  display: flex;
+  column-gap: 5px;
+  list-style: none;
+}
+
+.extra-apartment-info > ul > li::before {
+  content: "•";
+  margin-right: 5px;
+}
+
+.apartment--gallery {
+  width: 100%;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.gallery--two-images {
+  height: 200px;
+}
+.gallery--three-images {
+  height: 150px;
+}
+.gallery--two-images, .gallery--three-images {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+.gallery--two-images > img {
+  width: 50%;
+  height: 100%;
+  cursor: pointer;
+}
+.gallery--three-images > img {
+  width: 33%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.apartment--description {
+  margin-bottom: 20px;
+}
+
+.apartment-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.apartment--card {
+  width: 380px;
+  padding: 20px;
+  height: max-content;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  margin: 20px 0;
+}
+
+.price-info--container {
+  display: flex;
+  justify-content: space-between;
+}
+.price-info--container > a {
+  color: black;
+}
+.price-info--container > .row {
+  column-gap: 5px;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.row > a {
+  color: black;
+}
+
+.final-price--container {
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+}
+
+.date--container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+.date {
+  border: 1px solid #b5b5b5;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.date > .row {
+  margin: 0;
+  padding: 0;
+}
+
+.date > .row > input {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  outline: none;
+  border: none;
+}
+.date > .row > input:first-child {
+  border-right: 1px solid #b5b5b5;
+}
+.date > select {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  outline: none;
+  background-color: white;
+  border: none;
+  border-top: 1px solid #b5b5b5;
+}
+.date--container > button {
+  background-color: #500572;
+  height: 50px;
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 500px) {
+  .apartment--gallery {
+    height: auto;
+  }
+  .gallery--two-images, .gallery--three-images {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .gallery--two-images > img, .gallery--three-images > img {
+    width: 100%;
+    height: max-content;
+  }
+  .apartment--card {
+    width: 100%;
+  }
+  .extra--info {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .apartment-info {
+    flex-direction: column;
+  }
+  .extra-apartment-info {
+    max-width: 100%;
+  }
+  .apartment--card {
+    margin: 20px auto;
+  }
+}
