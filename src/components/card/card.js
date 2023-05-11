@@ -5,25 +5,12 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { useRouter } from "next/router";
 
-const Card = () => {
-  const [places, setPlace] = useState([]);
-  console.log(places);
-
-  useEffect(() => {
-    async function getPlaces() {
-      const resp = await fetch(
-        "https://otaq-api.onrender.com/places/get/approved"
-      );
-      const data = await resp.json();
-      setPlace(data);
-    }
-    getPlaces();
-  }, []);
+const Card = (props) => {
 
   const router = useRouter();
   return (
     <div className={styles.cards}>
-      {places.map((place, i) => (
+      {props.places.map((place, i) => (
         <div
           key={place._id.toString()}
           className={styles.card}

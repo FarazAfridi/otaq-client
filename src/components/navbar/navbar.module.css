@@ -14,7 +14,7 @@
   display: flex;
   align-items: center;
   column-gap: 20px;
-  overflow-x: scroll;
+  overflow-x: auto;
   scrollbar-width: thin;
 }
 

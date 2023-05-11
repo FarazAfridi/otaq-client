@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "@/styles/vendor.module.css";
 import uploadIcon from "@/assets/upload-icon2.svg";
-import Header from "@/components/header/header";
+import Header from "@/components/search/search";
 import Footer from "@/components/footer/footer";
 import Navigation from "@/components/navigation/navigation";
 
