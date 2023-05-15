@@ -1,21 +1,25 @@
-import React, { useState } from "react";
+import { useState, useRef } from "react";
 
 import styles from "./search.module.css";
 
 const Search = (props) => {
 
   const [searchValue, setSearchValue] = useState(null)
+  const priceRef = useRef()
+
 
   const handleChange = (e) => {
     setSearchValue({...searchValue, [e.target.name]:e.target.value});
   }
+
   return (
     <div className={styles["search--container"]}>
       <div className={styles.search}>
         <div className={styles["search--items--container"]}>
           <div className={styles.search__search_container}>
             <div className={styles.search__buttons}>
-              <select onChange={e => handleChange(e)} className={styles.search__button} name="price">
+            {/* <button onClick={() => priceRef.current.focus()}>abcdfeg</button> */}
+              <select ref={priceRef} onChange={e => handleChange(e)} className={styles.search__button} name="price">
                 <option selected disabled hidden>Price</option>
                 <option value="">None</option>
                 <option value="2000">2000</option>
