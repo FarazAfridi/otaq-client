@@ -9,7 +9,7 @@ const Card = (props) => {
 
   const router = useRouter();
   return (
-    <div className={styles.cards}>
+    <div className={styles.cards} id="places">
       {props.places.map((place, i) => (
         <div
           key={place._id.toString()}

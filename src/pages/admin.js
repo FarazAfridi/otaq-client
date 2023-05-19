@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "@/styles/admin.module.css";
-import Orders from "@/components/orders/orders";
+import Table from "@/components/table/table";
 import PlaceApprovalContainer from "@/components/placeApprovalContainer/placeApprovalContainer";
 
 export default function Admin() {
@@ -180,8 +180,8 @@ export default function Admin() {
           <div className={styles.content_container}>
             {/* ORDERS */}
             {tab === "orders" ? (
-              <Orders
-                orders={orders}
+              <Table
+                tableData={orders}
                 tableHeadings={[
                   "Id:",
                   "Booked by:",
@@ -223,8 +223,8 @@ export default function Admin() {
                     <h2>Total Admins : {userRoleCount.admins}</h2>
                   </div>
                 </div>
-                <Orders
-                  orders={users}
+                <Table
+                  tableData={users}
                   type="users"
                   tableHeadings={["Id", "Username", "Email", "Role"]}
                 />

@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [places, setPlaces] = useState([]);
-  console.log(places);
+
   useEffect(() => {
     async function getPlaces() {
       const resp = await fetch("https://otaq-api.onrender.com/places/get/approved");

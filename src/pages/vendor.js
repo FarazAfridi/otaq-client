@@ -44,7 +44,7 @@ export default function Admin() {
     });
     const data = await response.json();
     SetImagesSrc(data.images);
-    console.log(data);
+
   }
 
   return (

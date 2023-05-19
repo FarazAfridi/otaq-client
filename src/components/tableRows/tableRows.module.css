@@ -1,4 +1,4 @@
-.order-table {
+.table {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -9,20 +9,20 @@
   padding: 10px;
 }
 
-.order-item {
+.table-item {
   width: calc(100%/5);
   min-width: fit-content;
 }
 
-.order-table:hover {
+.table:hover {
   background-color: #F7F7F7 !important;
 }
 
-.order-item:first-child {
+.table-item:first-child {
   min-width: 100px;
   width: 300px;
 }
-.order-item:last-child {
+.table-item:last-child {
   min-width: 100px;
   width: 100px;
 }

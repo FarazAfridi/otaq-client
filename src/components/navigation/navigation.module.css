@@ -259,6 +259,7 @@
   width: 150px;
   top: calc(100% + 10px);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }

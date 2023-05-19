@@ -6,6 +6,8 @@ import facebook from "@/assets/facebook.png"
 import apple from "@/assets/apple-logo.png"
 import emailImage from "@/assets/email.png"
 import Image from "next/image";
+import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -35,6 +37,7 @@ export default function Login() {
       localStorage.setItem('token', data.token)
       localStorage.setItem('role', data.userRole)
       router.push('/')
+      toast("User logged in successfully", { hideProgressBar: true, autoClose: 2000, type: 'success' })
     }
 
   }
@@ -54,7 +57,7 @@ export default function Login() {
             <input type="password" name="" id="" placeholder="PASSWORD" className={styles.Password} onChange={(e) => setPassword(e.target.value)} />
 
 
-            <p className={styles.text}>We’ll call or text you to confirm your number. Standard message and data rates apply.</p>
+            <p className={styles.text}>Don&apos;t have an account ? <Link href="/registration" style={{color: 'black', fontWeight: 400}}>Sign Up.</Link></p>
             <a href="#" className={styles.privacy_policy}>Privacy Policy</a>
 
             <button type="submit" className={styles.btn}>Continue</button>

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import heartIcon from "@/assets/heart-icon.svg"
 import uploadIcon from "@/assets/upload-icon.svg"
 import axios from "axios"
+import { toast } from "react-toastify";
 
 import { useRouter } from 'next/router'
 import { useEffect, useState, useRef } from "react";
@@ -35,6 +36,7 @@ export default function SinglePlace() {
   )
     .then(function (response) {
       setBook(response.data)
+      toast("Your order has been placed. Thank you", { hideProgressBar: true, autoClose: 2000, type: 'success' })
     })
     .catch(function (error) {
      console.log(error)

@@ -6,6 +6,8 @@ import google from "@/assets/google.png"
 import facebook from "@/assets/facebook.png"
 import apple from "@/assets/apple-logo.png"
 import emailImage from "@/assets/email.png"
+import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function Registration () {
 
@@ -34,8 +36,8 @@ export default function Registration () {
       })
     })
     const data = await response.json()
-    console.log(data)
     router.push('/login')
+    toast("User registered successfully", { hideProgressBar: true, autoClose: 2000, type: 'success' })
   }
 
   return (
@@ -52,7 +54,7 @@ export default function Registration () {
           <input type="text" name="" id="" placeholder="EMAIL" className={styles.Password} onChange={(e) => setEmail(e.target.value)} />
           <input type="password" name="" id="" placeholder="PASSWORD" className={styles.Username} onChange={(e) => setPassword(e.target.value)} />
 
-          <p className={styles.text}>We’ll call or text you to confirm your number. Standard message and data rates apply.</p>
+          <p className={styles.text}>Have an account ? <Link style={{color: 'black', fontWeight: 400 }} href="/login">Login.</Link></p>
           <a href="#" className={styles.privacy_policy}>Privacy Policy</a>
 
           <button type="submit" className={styles.btn}>Continue</button>

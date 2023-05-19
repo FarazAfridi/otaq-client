@@ -21,7 +21,7 @@
   column-gap: 10px;
 }
 
-.order-top {
+.table-top {
   display: flex;
   /* flex-wrap: wrap; */
   align-items: center;
@@ -32,14 +32,14 @@
   padding: 10px;
 }
 
-.order-top > span {
+.table-top > span {
   width: calc(100% / 5);
 }
-.order-top > span:first-child {
+.table-top > span:first-child {
   min-width: 100px;
   width: 300px;
 }
-.order-top > span:last-child {
+.table-top > span:last-child {
   min-width: 100px;
   width: 100px;
 }

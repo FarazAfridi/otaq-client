@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 const Footer = () => {
   return (
-    <div className={styles.footer}>
+    <div className={styles.footer} id="footer">
       <div className={styles.footer_container}>
         <h3 className={styles.footer_heading}>Contact Us</h3>
         <p>Customer support</p>
