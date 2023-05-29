@@ -74,7 +74,9 @@
 }
 
 .admin--sidebar {
-  width: 300px;
+  width: 100%;
+  max-width: 250px;
+  min-width: 150px;
 }
 
 .admin--sidebar > button {
@@ -116,8 +118,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
   flex-wrap: wrap;
+  width: 100%;
   row-gap: 25px;
   column-gap: 30px;
   margin-top: 20px;
@@ -125,18 +127,20 @@
 
 .dashboard_card {
   width: 45%;
+  min-width: 300px;
   height: 150px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   display: flex;
+  justify-content: center;
   flex-direction: column;
+  padding: 20px;
+  border-radius: 5px;
 }
 
 .dashboard_card_upper_child {
-  height: 70%;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  margin-left: 15px;
+  justify-content: space-between;
+  height: 70%;
 }
 
 .dashboard_card_lower_child {
@@ -146,4 +150,8 @@
   align-items: center;
   text-align: center;
   cursor: pointer;
+}
+
+.dashboard_card_lower_child:hover {
+  background-color: #f7f7f7;
 }

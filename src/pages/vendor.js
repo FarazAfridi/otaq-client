@@ -34,6 +34,7 @@ export default function Admin() {
     formData.append("name", name);
     formData.append("description", description);
     formData.append("price", price);
+    formData.append("roomType", 'Normal');
 
     const response = await fetch("https://otaq-api.onrender.com/places/add", {
       method: "POST",

@@ -1,10 +1,11 @@
 .cards {
   display: flex;
+  justify-content: center;
   width: 100%;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: 20px;
   margin-top: 20px;
+  margin-bottom: 20px;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -16,12 +17,22 @@
 
 .carousel-root {
   width: 100%;
-  max-width: 370px;
+  max-width: 275px;
+  overflow: hidden;
 }
 
 .card {
   width: 100%;
-  max-width: 370px;
+  max-width: 275px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 4px;
+  border-radius: 10px 10px 5px 5px;
+}
+
+.card--details {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
 }
 
 .card:hover {
@@ -38,10 +49,9 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  border-radius: 10px;
-  width: 370px;
-  height: 280px;
-  margin-bottom: 10px;
+  border-radius: 10px 10px 0 0;
+  width: 100%;
+  height: 250px;
 }
 
 .card__image_container img {
@@ -50,22 +60,21 @@
   object-fit: cover;
 }
 
-.card__distance, .card__date, .card__night {
+.card__distance, .card__date {
   color: #717171;
   font-size: 14px;
 }
 
 .card__price {
   font-size: 14px;
+  font-weight: 600;
 }
 
-.card__price_container {
-  margin-top: 5px;
-  margin-bottom: 20px;
-}
 
 .col {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
 }
 
@@ -98,4 +107,19 @@
 
 .card > div > div > button {
   margin: 0 !important;
+}
+
+.card--info {
+  display: flex;
+  column-gap: 5px;
+}
+
+.card--info > p {
+  background-color: #F7F7F7;
+  border: 1px solid #dddddd;
+  padding: 0 5px;
+}
+
+.card--info > p:hover {
+  background-color: #dddddd;
 }

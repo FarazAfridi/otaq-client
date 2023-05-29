@@ -6,20 +6,23 @@ import sindhImg2 from "@/assets/sindh2.jpg";
 import sindhImg3 from "@/assets/sindh3.jpg";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styles from "./mainStyle.module.css";
+import Reservation from '../reservation/reservation';
 
 const MainSlider = () => {
   return (
     <>
       <div className={`${styles["main-slider"]} main-slider`}>
-        <Carousel  className={styles.carousel} showStatus={false} showThumbs={false}>
+      <Reservation />
+     
+        <Carousel  className={styles.carousel} autoPlay={6000} infiniteLoop={true} showIndicators={false} showStatus={false} >
           <div>
-            <Image src={sindhImg} alt=""/>
+            <Image src={sindhImg} width={2000} height={2000} alt=""/>
           </div>
           <div >
-            <Image src={sindhImg2} alt=""/>
+            <Image src={sindhImg2} width={2000} height={2000} loading='lazy' alt=""/>
           </div>
           <div >
-            <Image src={sindhImg3} alt=""/>
+            <Image src={sindhImg3} width={2000} height={2000} loading='lazy' alt=""/>
           </div>
         </Carousel>
       </div>

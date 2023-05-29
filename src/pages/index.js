@@ -6,13 +6,16 @@ import Navbar from "../components/navbar/navbar";
 import Testimonials from "./../components/testimonials/testimonials";
 import Search from "@/components/search/search";
 import { useEffect, useState } from "react";
+import TopDestinations from "@/components/top-destinations/topDestinations";
 
 export default function Home() {
   const [places, setPlaces] = useState([]);
 
   useEffect(() => {
     async function getPlaces() {
-      const resp = await fetch("https://otaq-api.onrender.com/places/get/approved");
+      const resp = await fetch(
+        "https://otaq-api.onrender.com/places/get/approved"
+      );
       const data = await resp.json();
       setPlaces(data);
     }
@@ -20,7 +23,11 @@ export default function Home() {
   }, []);
 
   const handleSearch = async (values) => {
-    const url = "https://otaq-api.onrender.com/places/get/approved?price=" + values.price + "&roomtype=" + values.roomType;
+    const url =
+      "https://otaq-api.onrender.com/places/get/approved?price=" +
+      values.price +
+      "&roomtype=" +
+      values.roomType;
     const resp = await fetch(url);
     const data = await resp.json();
     setPlaces(data);
@@ -30,12 +37,24 @@ export default function Home() {
     <div>
       <Hero />
       <Layout>
-        <Navbar />
         <div className="divider"></div>
-        <Search handleSearch={handleSearch} />
+        {/* <Search handleSearch={handleSearch} /> */}
         <div className="divider"></div>
+      </Layout>
+      <div className="full-width">
+        <Layout>
+          <TopDestinations />
+        </Layout>
+      </div>
+      <Layout>
         <Card places={places} />
-        <Testimonials />
+      </Layout>
+      <div className="full-width">
+        <Layout>
+          <Testimonials />
+        </Layout>
+      </div>
+      <Layout>
         <Footer />
       </Layout>
     </div>

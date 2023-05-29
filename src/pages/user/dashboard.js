@@ -19,7 +19,6 @@ export default function Dashboard() {
               className="default-button"
               onClick={() => {
                 setTab("dashboard");
-
               }}
             >
               Dashboard
@@ -28,7 +27,6 @@ export default function Dashboard() {
               className="default-button"
               onClick={() => {
                 setTab("bookedPlaces");
-
               }}
             >
               Booked Places
@@ -37,7 +35,6 @@ export default function Dashboard() {
               className="default-button"
               onClick={() => {
                 setTab("listedPlaces");
-
               }}
             >
               Listed Places
@@ -46,7 +43,6 @@ export default function Dashboard() {
               className="default-button"
               onClick={() => {
                 setTab("settings");
-
               }}
             >
               Settings
@@ -54,21 +50,24 @@ export default function Dashboard() {
           </div>
 
           <div className={styles.content_container}>
-
             {tab === "settings" ? (
-              <h1>Settings</h1>
-            ) : null}
+              <div className={styles.card_main_container}>
+                <div className={styles["section-top--card"]}>
+                  <h2>Settings</h2>
+                </div>
+              </div>
+            ): null}
 
             {tab === "listedPlaces" ? (
-             <h1>Listed Places</h1>
-            ) : tab === "users" ? (
-              <h1>Users</h1>  
-            
+              <div className={styles.card_main_container}>
+                <div className={styles["section-top--card"]}>
+                  <h2>Listed Places</h2>
+                </div>
+              </div>
             ) : tab === "dashboard" ? (
               <div className={styles.dashboard_cards}>
-
                 <div className={styles.dashboard_card}>
-                <div className={styles.dashboard_card_upper_child}>
+                  <div className={styles.dashboard_card_upper_child}>
                     <h2>2</h2>
                     <p>Total Places Purchased</p>
                   </div>
@@ -104,7 +103,6 @@ export default function Dashboard() {
                     className={styles.dashboard_card_lower_child}
                     onClick={() => {
                       setTab("listedPlaces");
-
                     }}
                   >
                     More Info
@@ -124,8 +122,10 @@ export default function Dashboard() {
                 </div>
               </div>
             ) : tab === "bookedPlaces" ? (
-              <div>
-                <h1>Booked Places</h1>
+              <div className={styles.card_main_container}>
+                <div className={styles["section-top--card"]}>
+                  <h2>Booked Places</h2>
+                </div>
               </div>
             ) : null}
           </div>

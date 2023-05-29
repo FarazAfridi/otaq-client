@@ -14,12 +14,12 @@ export default function Admin() {
     vendors: "0",
     users: 0,
   });
- const [dataCount, setDataCount] = useState({
-  ordersCount: 0,
-  placesCount: 0,
-  unapprovedPlaceCount: 0,
-  usersCount: 0
- })
+  const [dataCount, setDataCount] = useState({
+    ordersCount: 0,
+    placesCount: 0,
+    unapprovedPlaceCount: 0,
+    usersCount: 0,
+  });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -34,14 +34,14 @@ export default function Admin() {
             },
           }
         );
-       
+
         const data = await response.json();
         setDataCount({
           usersCount: data.users,
           unapprovedPlaceCount: data.unapprovedPlaces,
           ordersCount: data.orders,
-          placesCount: data.places
-        })
+          placesCount: data.places,
+        });
         console.log(data);
       }
       getCount();
@@ -231,14 +231,9 @@ export default function Admin() {
               </div>
             ) : tab === "dashboard" ? (
               <div className={styles.dashboard_cards}>
-                {/* <div className={styles["section-top--card"]}>
-                  <h2>Customers</h2>
-                </div> */}
                 <div className={styles.dashboard_card}>
                   <div className={styles.dashboard_card_upper_child}>
-                    <h2>
-                      {dataCount.usersCount}
-                    </h2>
+                    <h2>{dataCount.usersCount}</h2>
                     <p>Total Users</p>
                   </div>
                   <div
@@ -269,7 +264,7 @@ export default function Admin() {
                 <div className={styles.dashboard_card}>
                   <div className={styles.dashboard_card_upper_child}>
                     <h2>{dataCount.unapprovedPlaceCount}</h2>
-                    <p>Total unapprovedPlaces</p>
+                    <p>Total Unapproved Places</p>
                   </div>
                   <div
                     className={styles.dashboard_card_lower_child}
