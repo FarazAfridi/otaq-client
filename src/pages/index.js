@@ -24,18 +24,23 @@ export default function Home() {
 
   const handleSearch = async (values) => {
     const url =
-      "https://otaq-api.onrender.com/places/get/approved?price=" +
-      values.price +
+      "https://otaq-api.onrender.com/places/get/approved?city=" +
+      values.city +
       "&roomtype=" +
-      values.roomType;
+      values.roomType + "&persons=" +
+      values.persons
     const resp = await fetch(url);
-    const data = await resp.json();
-    setPlaces(data);
+    if (resp.ok) {
+      const data = await resp.json();
+      setPlaces(data);
+      console.log(data)
+      document.getElementById("places").scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
     <div>
-      <Hero />
+      <Hero search={handleSearch} />
       <Layout>
         <div className="divider"></div>
         {/* <Search handleSearch={handleSearch} /> */}

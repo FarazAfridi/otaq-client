@@ -8,13 +8,13 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styles from "./mainStyle.module.css";
 import Reservation from '../reservation/reservation';
 
-const MainSlider = () => {
+const MainSlider = (props) => {
   return (
     <>
       <div className={`${styles["main-slider"]} main-slider`}>
-      <Reservation />
+      <Reservation search={props.search} />
      
-        <Carousel  className={styles.carousel} autoPlay={6000} infiniteLoop={true} showIndicators={false} showStatus={false} >
+        <Carousel showThumbs={false}  className={styles.carousel} autoPlay={6000} infiniteLoop={true} showIndicators={false} showStatus={false} >
           <div>
             <Image src={sindhImg} width={2000} height={2000} alt=""/>
           </div>

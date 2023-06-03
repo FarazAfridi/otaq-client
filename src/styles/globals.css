@@ -78,3 +78,17 @@ a {
   text-decoration: none;
   color: black;
 }
+
+.loading {
+  animation: loading 1s ease-in-out infinite;
+}
+
+@keyframes loading {
+  from {
+    rotate: 0;
+  }
+
+  to {
+    rotate: 360deg;
+  }
+}

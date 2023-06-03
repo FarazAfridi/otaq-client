@@ -71,7 +71,7 @@ const Navigation = () => {
                 className={styles.dropdown_main}
                 onClick={() => setIsComponentVisible(!isComponentVisible)}
               >
-                <div className={styles["account-options"]}>
+                <div className={styles["account-options"]} onClick={() => ls === null ? router.push("/login") : null}>
                   <div className={styles["account-options__icon--container"]}>
                     <Image src={listIcon} alt="list icon" />
                   </div>

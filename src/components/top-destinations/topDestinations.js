@@ -7,12 +7,12 @@ export default function TopDestinations() {
       <h1>Top Destinations</h1>
       <p>Best places where to live in the world and enjoy your trip</p>
       <div className={styles["destinations--container"]}>
-        <Destination image="/images/karachi.jpg" name="Karachi" />
-        <Destination image="/images/larkana.jpg" name="Larkana" />
-        <Destination image="/images/hyderabad.jpg" name="Hyderabad" />
-        <Destination image="/images/sukkur.jpg" name="Sukkur" />
-        <Destination image="/images/thatha.jpg" name="Thatta" />
-        <Destination image="/images/dadu.jpg" name="Dadu" />
+        <Destination image="/images/karachi.jpg" name="Karachi" link="karachi" />
+        <Destination image="/images/larkana.jpg" name="Larkana" link="larkana" />
+        <Destination image="/images/hyderabad.jpg" name="Hyderabad" link="hyderabad"/>
+        <Destination image="/images/sukkur.jpg" name="Sukkur" link="sukkur" />
+        <Destination image="/images/thatha.jpg" name="Thatta" link="thatta" />
+        <Destination image="/images/dadu.jpg" name="Dadu" link="dadu" />
       </div>
     </div>
   );

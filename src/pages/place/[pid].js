@@ -12,9 +12,24 @@ import Navigation from "@/components/navigation/navigation";
 export default function SinglePlace() {
   const [token, setToken] = useState(null);
   const [book, setBook] = useState(null);
+  const [days, setDays] = useState(1)
 
   const startDate = useRef();
   const lastDate = useRef();
+
+  function getDays () {
+    if(startDate.current.value && lastDate.current.value) {
+      var date1 = new Date(startDate.current.value);
+      date1.setMinutes(date1.getMinutes() - date1.getTimezoneOffset());
+  
+      var date2 = new Date(lastDate.current.value);
+      date2.setMinutes(date2.getMinutes() - date2.getTimezoneOffset());
+  
+      var millisecondsPerDay = 24 * 60 * 60 * 1000;
+      const result = (date2 - date1) / millisecondsPerDay;
+      setDays(result)
+    }
+  }
 
   useEffect(() => {
     setToken(localStorage.getItem("token"));
@@ -178,12 +193,14 @@ export default function SinglePlace() {
                           type="date"
                           min={new Date().toISOString().split("T")[0]}
                           ref={startDate}
+                          onChange={getDays}
                         />
                         <input
                           required
                           type="date"
                           min={new Date().toISOString().split("T")[0]}
                           ref={lastDate}
+                          onChange={getDays}
                         />
                       </div>
                       <select name="guests">
@@ -200,8 +217,8 @@ export default function SinglePlace() {
                   </div>
                   <div className={styles["price--details"]}>
                     <div className={styles.row}>
-                      <a href="">Rs{place.price} x 1 nights</a>
-                      <span>{place.price}</span>
+                      <a href="">Rs{place.price} x {days} nights</a>
+                      <span>{place.price * days}</span>
                     </div>
                     <div className={styles.row}>
                       <span>Weekly stay discount</span>
@@ -215,7 +232,7 @@ export default function SinglePlace() {
                   <div className="divider"></div>
                   <div className={styles["final-price--container"]}>
                     <span>Total before taxes</span>
-                    <span>Rs{place.price}</span>
+                    <span>Rs{place.price * days}</span>
                   </div>
                 </div>
               </div>

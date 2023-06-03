@@ -26,13 +26,20 @@
   row-gap: 10px;
 }
 
-.reservation input {
+.reservation input,.select {
   height: 50px;
   padding: 10px;
   border: none;
   outline: none;
   border: 1px solid #B0B0B0;
   border-radius: 5px;
+  width: 100%;
+  background-color: white;
+}
+
+.reservation .area--input::placeholder,.select {
+  color: gray;
+  opacity: 1;
 }
 
 .row {
