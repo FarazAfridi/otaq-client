@@ -1,10 +1,79 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "@/styles/admin.module.css";
+import Table from "@/components/table/table";
 // import Table from "@/components/table/table";
 // import PlaceApprovalContainer from "@/components/placeApprovalContainer/placeApprovalContainer";
 
 export default function Dashboard() {
   const [tab, setTab] = useState("dashboard");
+  const [booking, setBooking] = useState([]);
+
+  const [userSetting, setUserSetting] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = async () => {
+    if (typeof window !== "undefined") {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          "http://localhost:4000/auth/userupdate",
+          {
+            body: JSON.stringify({name: userSetting.name, email: userSetting.email, password: userSetting.password}),
+            method: 'POST',
+            headers: {
+              'Content-Type' : 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if(response.ok) {
+          const data = response.json();
+          console.log(data)
+        }
+      }
+      
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      async function getUserBookings() {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          "http://localhost:4000/places/get/booking",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setBooking(data);
+      }
+      getUserBookings();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      async function getUserData() {
+        const token = localStorage.getItem("token");
+        const response = await fetch("http://localhost:4000/auth/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        setUserSetting({
+          name: data[0].name,
+          email: data[0].email,
+          password: "",
+        });
+      }
+      getUserData();
+    }
+  }, []);
 
   return (
     <>
@@ -55,8 +124,29 @@ export default function Dashboard() {
                 <div className={styles["section-top--card"]}>
                   <h2>Settings</h2>
                 </div>
+                <div>
+                  <input
+                    type="text"
+                    onChange={(e) => setUserSetting({...userSetting, name: e.target.value })}
+                    value={userSetting.name}
+                  />
+                  <input
+                    type="text"
+                    onChange={(e) => setUserSetting({...userSetting, email: e.target.value })}
+                    value={userSetting.email}
+                  />
+                  <input
+                    type="password"
+                    onChange={(e) =>
+                      setUserSetting({...userSetting, password: e.target.value })
+                    }
+                    value={userSetting.password}
+                    placeholder="Change Password"
+                  />
+                  <button onClick={handleChange}>Update</button>
+                </div>
               </div>
-            ): null}
+            ) : null}
 
             {tab === "listedPlaces" ? (
               <div className={styles.card_main_container}>
@@ -125,6 +215,19 @@ export default function Dashboard() {
               <div className={styles.card_main_container}>
                 <div className={styles["section-top--card"]}>
                   <h2>Booked Places</h2>
+                </div>
+                <div>
+                  <Table
+                    tableData={booking}
+                    tableHeadings={[
+                      "Id:",
+                      "Booked by:",
+                      "Email:",
+                      "Place:",
+                      "Payment:",
+                    ]}
+                    type="orders"
+                  />
                 </div>
               </div>
             ) : null}
