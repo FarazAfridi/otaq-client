@@ -18,7 +18,7 @@ export default function Dashboard() {
     if (typeof window !== "undefined") {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          "http://localhost:4000/auth/userupdate",
+          "https://otaq-api.onrender.com/auth/userupdate",
           {
             body: JSON.stringify({name: userSetting.name, email: userSetting.email, password: userSetting.password}),
             method: 'POST',
@@ -41,7 +41,7 @@ export default function Dashboard() {
       async function getUserBookings() {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          "http://localhost:4000/places/get/booking",
+          "https://otaq-api.onrender.com/places/get/booking",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ export default function Dashboard() {
     if (typeof window !== "undefined") {
       async function getUserData() {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:4000/auth/user", {
+        const response = await fetch("https://otaq-api.onrender.com/auth/user", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
