@@ -10,8 +10,10 @@ export default function Admin() {
   const [file, setFile] = useState(null);
   const [name, setName] = useState(null);
   const [price, setPrice] = useState(null);
+  const [roomType, setRoomType] = useState(null);
+  const [capacity, setCapacity] = useState(null);
+  const [city, setCity] = useState(null);
   const [description, setDescription] = useState(null);
-  const [imagesSrc, SetImagesSrc] = useState(null);
   const [token, setToken] = useState("");
 
   useEffect(() => {
@@ -34,7 +36,9 @@ export default function Admin() {
     formData.append("name", name);
     formData.append("description", description);
     formData.append("price", price);
-    formData.append("roomType", 'Normal');
+    formData.append("roomType", roomType);
+    formData.append("city", city);
+    formData.append("persons", capacity);
 
     const response = await fetch("https://otaq-api.onrender.com/places/add", {
       method: "POST",
@@ -44,14 +48,12 @@ export default function Admin() {
       body: formData,
     });
     const data = await response.json();
-    SetImagesSrc(data.images);
-
   }
 
   return (
     <>
-    <div className={styles["nav--container"]}>
-      <Navigation />
+      <div className={styles["nav--container"]}>
+        <Navigation />
       </div>
       <div className={styles.form__main_container}>
         <form
@@ -60,29 +62,62 @@ export default function Admin() {
           encType="multipart/form-data"
         >
           <h1 className={styles.main_heading}>Vendor</h1>
+          <div className="col">
+            <input
+              className={styles.input}
+              type="text"
+              name=""
+              id=""
+              placeholder="Name"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <input
+              className={styles.input}
+              type="number"
+              name=""
+              id=""
+              placeholder="Capacity"
+              onChange={(e) => setCapacity(e.target.value)}
+            />
+          </div>
+          <div className="col">
+            <input
+              className={styles.input}
+              type="number"
+              name=""
+              id=""
+              placeholder="Rent"
+              onChange={(e) => setPrice(e.target.value)}
+            />
+            <input
+              className={styles.input}
+              type="text"
+              name=""
+              id=""
+              placeholder="City"
+              onChange={(e) => setCity(e.target.value)}
+            />
+          </div>
 
-          <input
-            className={styles.input}
-            type="text"
-            name=""
-            id=""
-            placeholder="Name"
-            onChange={(e) => setName(e.target.value)}
-          />
-          <input
-            className={styles.input}
-            type="text"
-            name=""
-            id=""
-            placeholder="Price"
-            onChange={(e) => setPrice(e.target.value)}
-          />
+          <select
+            className={styles["select"]}
+            onChange={(e) => setRoomType(e.target.value)}
+            name="roomType"
+          >
+            <option selected disabled hidden>
+              Room Type
+            </option>
+            <option value="">None</option>
+            <option value="Normal">Normal</option>
+            <option value="Air Conditioned">Air Conditioned</option>
+          </select>
+          
           <textarea
             className={styles.textarea}
             name=""
             id=""
-            cols="30"
-            rows="4"
+            cols="20"
+            rows="2"
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Description"
           ></textarea>
@@ -102,8 +137,8 @@ export default function Admin() {
             id="file_input"
           />
           <label className={styles.label} htmlFor="file_input" name="images">
-            <Image className={styles.img} src={uploadIcon} alt="" />{" "}
-            Choose A Photo
+            <Image className={styles.img} src={uploadIcon} alt="" /> Choose A
+            Photo
           </label>
 
           <div className={styles.images}>

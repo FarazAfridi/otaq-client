@@ -92,3 +92,8 @@ a {
     rotate: 360deg;
   }
 }
+
+.col {
+  display: flex;
+  column-gap: 10px;
+}

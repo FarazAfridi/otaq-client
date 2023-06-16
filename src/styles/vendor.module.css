@@ -21,13 +21,15 @@
   justify-content: center;
   flex-direction: column;
   row-gap: 10px;
+  padding: 10px;
 }
 
 .input--container {
   background-color: #f3e9e9;
   width: 100%;
   margin: 0 auto;
-  min-width: 450px;
+  min-width: 300px;
+  max-height: 600px;
   border-radius: 6px;
   box-shadow: 0 20px 35px rgba(0, 0, 0, 0.05);
 }
@@ -54,17 +56,25 @@
   display: flex;
   align-items: center;
   width: 100%;
-  min-width: 300px;
+  min-width: 150px;
   padding: 5px 10px;
   border: 1px solid #DDDDDD;
   border-radius: 6px;
   font-size: 20px;
   color: #979292;
+  outline: none;
+  background: none;
+  padding: 10px;
+  height: 40px;
+  margin-top: 0;
+  width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid #B0B0B0;
 }
 
 .textarea {
   width: 100%;
-  min-width: 300px;
+  min-width: 250px;
   resize: vertical;
   color: #8a8686;
   border: 1px solid #DDDDDD;
@@ -124,4 +134,16 @@
   padding: 0 20px;
   column-gap: 10px;
   cursor: pointer;
+}
+
+.select {
+  height: 50px;
+  padding: 10px;
+  border: none;
+  outline: none;
+  color: #8a8686;
+  border: 1px solid #DDDDDD;
+  border-radius: 5px;
+  width: 100%;
+  background-color: white;
 }

@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import styles from "@/styles/admin.module.css";
 import Table from "@/components/table/table";
+import { useRouter } from "next/router";
 import PlaceApprovalContainer from "@/components/placeApprovalContainer/placeApprovalContainer";
 
 export default function Admin() {
+  const router = useRouter();
+
   const [tab, setTab] = useState("dashboard");
   const [orders, setOrders] = useState([]);
   const [users, setUsers] = useState([]);
@@ -131,7 +134,7 @@ export default function Admin() {
     <>
       <div className={styles["admin--panel--container"]}>
         <div className={styles["admin--options"]}>
-          <h2>Otaq</h2>
+          <h2 style={{cursor: 'pointer'}} onClick={() => router.push("/")}>Otaq</h2>
           <h4>Admin Panel</h4>
         </div>
         <div className={styles["admin--panel"]}>

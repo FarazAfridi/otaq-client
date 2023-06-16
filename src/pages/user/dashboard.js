@@ -1,12 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "@/styles/admin.module.css";
 import Table from "@/components/table/table";
+import styles2 from "@/components/card/card.module.css";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
 // import Table from "@/components/table/table";
 // import PlaceApprovalContainer from "@/components/placeApprovalContainer/placeApprovalContainer";
 
 export default function Dashboard() {
   const [tab, setTab] = useState("dashboard");
   const [booking, setBooking] = useState([]);
+  const [listing, setListing] = useState([]);
+
+  const router = useRouter();
 
   const [userSetting, setUserSetting] = useState({
     name: "",
@@ -16,24 +24,27 @@ export default function Dashboard() {
 
   const handleChange = async () => {
     if (typeof window !== "undefined") {
-        const token = localStorage.getItem("token");
-        const response = await fetch(
-          "https://otaq-api.onrender.com/auth/userupdate",
-          {
-            body: JSON.stringify({name: userSetting.name, email: userSetting.email, password: userSetting.password}),
-            method: 'POST',
-            headers: {
-              'Content-Type' : 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if(response.ok) {
-          const data = response.json();
-          console.log(data)
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        "https://otaq-api.onrender.com/auth/userupdate",
+        {
+          body: JSON.stringify({
+            name: userSetting.name,
+            email: userSetting.email,
+            password: userSetting.password,
+          }),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }
+      );
+      if (response.ok) {
+        const data = response.json();
+        console.log(data);
       }
-      
+    }
   };
 
   useEffect(() => {
@@ -59,11 +70,14 @@ export default function Dashboard() {
     if (typeof window !== "undefined") {
       async function getUserData() {
         const token = localStorage.getItem("token");
-        const response = await fetch("https://otaq-api.onrender.com/auth/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          "https://otaq-api.onrender.com/auth/user",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await response.json();
         setUserSetting({
           name: data[0].name,
@@ -75,11 +89,32 @@ export default function Dashboard() {
     }
   }, []);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      async function getListings() {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          "https://otaq-api.onrender.com/places/get/listing",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setListing(data[0].listing);
+      }
+      getListings();
+    }
+  }, []);
+
   return (
     <>
       <div className={styles["admin--panel--container"]}>
         <div className={styles["admin--options"]}>
-          <h2>Otaq</h2>
+          <h2 style={{ cursor: "pointer" }} onClick={() => router.push("/")}>
+            Otaq
+          </h2>
           <h4>User Dashboard</h4>
         </div>
         <div className={styles["admin--panel"]}>
@@ -124,26 +159,42 @@ export default function Dashboard() {
                 <div className={styles["section-top--card"]}>
                   <h2>Settings</h2>
                 </div>
-                <div>
-                  <input
-                    type="text"
-                    onChange={(e) => setUserSetting({...userSetting, name: e.target.value })}
-                    value={userSetting.name}
-                  />
-                  <input
-                    type="text"
-                    onChange={(e) => setUserSetting({...userSetting, email: e.target.value })}
-                    value={userSetting.email}
-                  />
-                  <input
-                    type="password"
-                    onChange={(e) =>
-                      setUserSetting({...userSetting, password: e.target.value })
-                    }
-                    value={userSetting.password}
-                    placeholder="Change Password"
-                  />
-                  <button onClick={handleChange}>Update</button>
+                <div className={styles["settings"]}>
+                  <div className={styles["settings--container"]}>
+                    <input
+                      type="text"
+                      onChange={(e) =>
+                        setUserSetting({ ...userSetting, name: e.target.value })
+                      }
+                      value={userSetting.name}
+                      placeholder="Change Name"
+                    />
+                    <input
+                      type="text"
+                      onChange={(e) =>
+                        setUserSetting({
+                          ...userSetting,
+                          email: e.target.value,
+                        })
+                      }
+                      value={userSetting.email}
+                      placeholder="Change Email"
+                    />
+                    <input
+                      type="password"
+                      onChange={(e) =>
+                        setUserSetting({
+                          ...userSetting,
+                          password: e.target.value,
+                        })
+                      }
+                      value={userSetting.password}
+                      placeholder="Change Password"
+                    />
+                    <button className="pink-button" onClick={handleChange}>
+                      Update
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : null}
@@ -153,6 +204,84 @@ export default function Dashboard() {
                 <div className={styles["section-top--card"]}>
                   <h2>Listed Places</h2>
                 </div>
+                {listing.length > 0 ? (
+                  <div>
+                    {listing.map((l) => (
+                      <div key={l._id.toString()} className={styles2.card}>
+                        <Carousel
+                          showStatus={false}
+                          interval={2000}
+                          infiniteLoop={false}
+                          autoPlay={true}
+                          transitionTime={500}
+                          showThumbs={false}
+                          showIndicators={false}
+                        >
+                          <div className={styles2.card__image_container}>
+                            <Image
+                              onClick={() => {
+                                router.push(`/place/${l._id.toString()}`);
+                              }}
+                              src={`https://otaq-api.onrender.com/${l.images[0]}`}
+                              width={300}
+                              height={300}
+                              alt=""
+                            />
+                          </div>
+                          <div className={styles2.card__image_container}>
+                            <Image
+                              onClick={() => {
+                                router.push(`/place/${l._id.toString()}`);
+                              }}
+                              src={`https://otaq-api.onrender.com/${l.images[1]}`}
+                              width={300}
+                              height={300}
+                              alt=""
+                            />
+                          </div>
+                          <div className={styles2.card__image_container}>
+                            <Image
+                              onClick={() => {
+                                router.push(`/place/${l._id.toString()}`);
+                              }}
+                              src={`https://otaq-api.onrender.com/${l.images[2]}`}
+                              width={300}
+                              height={300}
+                              alt=""
+                            />
+                          </div>
+                        </Carousel>
+                        <div
+                          className={styles2["card--details"]}
+                          onClick={() => {
+                            router.push(`/place/${l._id.toString()}`);
+                          }}
+                        >
+                          <div className={styles2.col}>
+                            <p className={styles2.card__name}>{l.name}</p>
+                            <div className={styles2.card__price_container}>
+                              <span className={styles2.card__price}>
+                                Rs{l.price}
+                              </span>
+                              <span className={styles2.card__night}>/night</span>
+                            </div>
+                          </div>
+                          <div className="divider"></div>
+                          <div className={styles2["card--info"]}>
+                            <p className={styles2.card__distance}>
+                              3000m elevation
+                            </p>
+                            <p className={styles2.card__date}>
+                              {l.roomType}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <h1>No Places Listed</h1>
+                )}
               </div>
             ) : tab === "dashboard" ? (
               <div className={styles.dashboard_cards}>

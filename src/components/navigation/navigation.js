@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 import useComponentVisible from "@/hooks/useComponentVisible";
 
 const Navigation = () => {
-  // const [isNavbarVisible, setIsNavbarVisible] = useState(false)
   const [isMobileNavbar, setIsMobileNavbar] = useState(false);
 
   const { ref, isComponentVisible, setIsComponentVisible } =
@@ -19,11 +18,13 @@ const Navigation = () => {
 
   const router = useRouter();
 
-  const [ls, setLs] = useState(null);
+  const [token, setToken] = useState(null);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setLs(localStorage.getItem("token"));
+      setToken(localStorage.getItem("token"));
+      setRole(localStorage.getItem("role"));
     }
   }, []);
 
@@ -71,7 +72,12 @@ const Navigation = () => {
                 className={styles.dropdown_main}
                 onClick={() => setIsComponentVisible(!isComponentVisible)}
               >
-                <div className={styles["account-options"]} onClick={() => ls === null ? router.push("/login") : null}>
+                <div
+                  className={styles["account-options"]}
+                  onClick={() =>
+                    token === null ? router.push("/login") : null
+                  }
+                >
                   <div className={styles["account-options__icon--container"]}>
                     <Image src={listIcon} alt="list icon" />
                   </div>
@@ -79,9 +85,36 @@ const Navigation = () => {
                     <Image src={profileIcon} alt="profile icon" />
                   </div>
                 </div>
-                {isComponentVisible && ls ? (
+                {isComponentVisible && token ? (
                   <div className={styles.dropdown}>
-                    <p onClick={() => router.push("/user/dashboard")} className={styles.dropdown__child}>Dashboard</p>
+                    {role === "Admin" ? (
+                      <p
+                        onClick={() => router.push("/admin")}
+                        className={styles.dropdown__child}
+                      >
+                        Admin Panel
+                      </p>
+                    ) : null}
+                    <p
+                      onClick={() => router.push("/user/dashboard")}
+                      className={styles.dropdown__child}
+                    >
+                      Dashboard
+                    </p>
+                    {role === "Vendor" ? (
+                      <p
+                        onClick={() => router.push("/vendor")}
+                        className={styles.dropdown__child}
+                      >
+                        Host a Place
+                      </p>
+                    ) : null}
+                    {role === "User" ? (
+                      <p className={styles.dropdown__child}>
+                        Become a Host
+                      </p>
+                    ) : null}
+                 
                     <p
                       className={styles.dropdown__child}
                       onClick={() => {
