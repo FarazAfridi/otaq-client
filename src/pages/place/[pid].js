@@ -91,7 +91,7 @@ export default function SinglePlace() {
           <div className={styles["main-content"]}>
             <Image
               className={styles["card--banner"]}
-              src={"https://otaq-api.onrender.com/" + place.images[0]}
+              src={'data:image/jpeg;base64,' + place.images[0].data.toString('base64')}
               alt=""
               fill
             />
@@ -143,13 +143,13 @@ export default function SinglePlace() {
                   <div className={styles["apartment--gallery"]}>
                     <div className={styles["gallery--two-images"]}>
                       <Image
-                        src={"https://otaq-api.onrender.com/" + place.images[1]}
+                        src={'data:image/jpeg;base64,' + place.images[1].data.toString('base64')}
                         alt=""
                         width={300}
                         height={300}
                       />
                       <Image
-                        src={"https://otaq-api.onrender.com/" + place.images[2]}
+                        src={'data:image/jpeg;base64,' + place.images[2].data.toString('base64')}
                         alt=""
                         width={300}
                         height={300}
@@ -157,19 +157,19 @@ export default function SinglePlace() {
                     </div>
                     <div className={styles["gallery--three-images"]}>
                       <Image
-                        src={"https://otaq-api.onrender.com/" + place.images[0]}
+                        src={'data:image/jpeg;base64,' + place.images[0].data.toString('base64')}
                         alt=""
                         width={300}
                         height={300}
                       />
                       <Image
-                        src={"https://otaq-api.onrender.com/" + place.images[1]}
+                        src={'data:image/jpeg;base64,' + place.images[1].data.toString('base64')}
                         alt=""
                         width={300}
                         height={300}
                       />
                       <Image
-                        src={"https://otaq-api.onrender.com/" + place.images[2]}
+                        src={'data:image/jpeg;base64,' + place.images[2].data.toString('base64')}
                         alt=""
                         width={300}
                         height={300}
@@ -236,7 +236,7 @@ export default function SinglePlace() {
                   </div>
                 </div>
               </div>
-            </div>{" "}
+            </div>
           </div>
         </>
       ) : (

@@ -45,7 +45,7 @@ export default function Admin() {
           ordersCount: data.orders,
           placesCount: data.places,
         });
-        console.log(data);
+
       }
       getCount();
     }
@@ -83,6 +83,7 @@ export default function Admin() {
         }
       );
       const data = await response.json();
+      console.log(data)
       setUnapprovedPlace(data);
     }
   }

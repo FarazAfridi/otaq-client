@@ -22,7 +22,7 @@ export default function PlaceApproval(props) {
       }
     );
     const data = await response.json();
-    console.log(data);
+
   }
 
   async function removeUnApprovedPlace(id) {
@@ -39,7 +39,7 @@ export default function PlaceApproval(props) {
       }
     );
     const data = await response.json();
-    console.log(data);
+
   }
 
   async function removeApprovedPlace(id) {
@@ -56,21 +56,11 @@ export default function PlaceApproval(props) {
       }
     );
     const data = await response.json();
-    console.log(data);
+
   }
 
   return (
-    //   <div >
-    //   <p>name {props.name}</p>
-    //   <p>description {props.description}</p>
-    //   <p>price {props.price}</p>
-    //   <Image
-    //     src={"https://otaq-api.herokuapp.com/" + props.image}
-    //     width={300}
-    //     height={300}
-    //     alt=""
-    //   ></Image>
-    // </div>
+   
     <div className={styles["unapproved-place"]}>
       <div>
         <Carousel
@@ -83,7 +73,7 @@ export default function PlaceApproval(props) {
         >
           <div className={styles.card__image_container}>
             <Image
-              src={`https://otaq-api.onrender.com/${props.images[0]}`}
+              src={'data:image/jpeg;base64,' + props.images[0].data.toString('base64')}
               width={300}
               height={300}
               alt=""
@@ -91,7 +81,7 @@ export default function PlaceApproval(props) {
           </div>
           <div className={styles.card__image_container}>
             <Image
-              src={`https://otaq-api.onrender.com/${props.images[1]}`}
+              src={'data:image/jpeg;base64,' + props.images[1].data.toString('base64')}
               width={300}
               height={300}
               alt=""
@@ -99,7 +89,7 @@ export default function PlaceApproval(props) {
           </div>
           <div className={styles.card__image_container}>
             <Image
-              src={`https://otaq-api.onrender.com/${props.images[2]}`}
+              src={'data:image/jpeg;base64,' + props.images[1].data.toString('base64')}
               width={300}
               height={300}
               alt=""

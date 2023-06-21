@@ -20,6 +20,7 @@ export default function Admin() {
     setToken(localStorage.getItem("token"));
   }, []);
 
+
   const previewImages = (img) => {
     const image = URL.createObjectURL(img);
     return <img className={styles.preview_image} src={image} />;
@@ -48,6 +49,7 @@ export default function Admin() {
       body: formData,
     });
     const data = await response.json();
+    console.log(data)
   }
 
   return (

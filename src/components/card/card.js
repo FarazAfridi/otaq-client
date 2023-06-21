@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 
 const Card = (props) => {
   const router = useRouter();
+  console.log(props)
   return (
     <div className={styles.cards} id="places">
       <div
@@ -45,7 +46,7 @@ const Card = (props) => {
                 onClick={() => {
                   router.push(`/place/${place._id.toString()}`);
                 }}
-                src={`https://otaq-api.onrender.com/${place.images[0]}`}
+                src={'data:image/jpeg;base64,' + place.images[0].data.toString('base64')}
                 width={300}
                 height={300}
                 alt=""
@@ -56,7 +57,7 @@ const Card = (props) => {
                 onClick={() => {
                   router.push(`/place/${place._id.toString()}`);
                 }}
-                src={`https://otaq-api.onrender.com/${place.images[1]}`}
+                src={'data:image/jpeg;base64,' + place.images[1].data.toString('base64')}
                 width={300}
                 height={300}
                 alt=""
@@ -67,7 +68,7 @@ const Card = (props) => {
                 onClick={() => {
                   router.push(`/place/${place._id.toString()}`);
                 }}
-                src={`https://otaq-api.onrender.com/${place.images[2]}`}
+                src={'data:image/jpeg;base64,' + place.images[2].data.toString('base64')}
                 width={300}
                 height={300}
                 alt=""
