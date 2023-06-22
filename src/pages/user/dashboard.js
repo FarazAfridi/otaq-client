@@ -205,7 +205,7 @@ export default function Dashboard() {
                   <h2>Listed Places</h2>
                 </div>
                 {listing.length > 0 ? (
-                  <div>
+                  <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
                     {listing.map((l) => (
                       <div key={l._id.toString()} className={styles2.card}>
                         <Carousel
@@ -222,7 +222,7 @@ export default function Dashboard() {
                               onClick={() => {
                                 router.push(`/place/${l._id.toString()}`);
                               }}
-                              src={`https://otaq-api.onrender.com/${l.images[0]}`}
+                              src={'data:image/jpeg;base64,' + l.images[0].data.toString('base64')}
                               width={300}
                               height={300}
                               alt=""
@@ -233,7 +233,7 @@ export default function Dashboard() {
                               onClick={() => {
                                 router.push(`/place/${l._id.toString()}`);
                               }}
-                              src={`https://otaq-api.onrender.com/${l.images[1]}`}
+                              src={'data:image/jpeg;base64,' + l.images[1].data.toString('base64')}
                               width={300}
                               height={300}
                               alt=""
@@ -244,7 +244,7 @@ export default function Dashboard() {
                               onClick={() => {
                                 router.push(`/place/${l._id.toString()}`);
                               }}
-                              src={`https://otaq-api.onrender.com/${l.images[2]}`}
+                              src={'data:image/jpeg;base64,' + l.images[2].data.toString('base64')}
                               width={300}
                               height={300}
                               alt=""
