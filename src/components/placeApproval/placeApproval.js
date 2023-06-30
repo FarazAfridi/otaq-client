@@ -4,8 +4,12 @@ import styles from "../card/card.module.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import checkIcon from "@/assets/check.svg";
 import cancel from "@/assets/close.svg";
+import { useRouter } from "next/router";
 
 export default function PlaceApproval(props) {
+
+  const router = useRouter()
+
   async function approvePlace(id) {
     const token = localStorage.getItem("token");
     const response = await fetch(
@@ -39,7 +43,7 @@ export default function PlaceApproval(props) {
       }
     );
     const data = await response.json();
-
+    router.push("/admin");
   }
 
   async function removeApprovedPlace(id) {
@@ -56,7 +60,9 @@ export default function PlaceApproval(props) {
       }
     );
     const data = await response.json();
-
+      if (response.ok) {
+        router.reload(window.location.pathname)
+      }
   }
 
   return (
@@ -89,7 +95,7 @@ export default function PlaceApproval(props) {
           </div>
           <div className={styles.card__image_container}>
             <Image
-              src={'data:image/jpeg;base64,' + props.images[1].data.toString('base64')}
+              src={'data:image/jpeg;base64,' + props.images[2].data.toString('base64')}
               width={300}
               height={300}
               alt=""
