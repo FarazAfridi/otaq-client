@@ -44,7 +44,7 @@ export default function Host() {
     formData.append("city", city);
     formData.append("persons", capacity);
     try {
-      const response = await fetch("https://otaq-api.onrender.com/add/approved", {
+      const response = await fetch("https://otaq-api.onrender.com/places/add/approved", {
       method: "POST",
       headers: {
         Authorization: `bearar ${token}`,

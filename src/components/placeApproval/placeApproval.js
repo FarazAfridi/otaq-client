@@ -43,7 +43,9 @@ export default function PlaceApproval(props) {
       }
     );
     const data = await response.json();
-    router.push("/admin");
+    if (response.ok) {
+      router.reload(window.location.pathname)
+    }
   }
 
   async function removeApprovedPlace(id) {
