@@ -13,6 +13,7 @@ export default function Dashboard() {
   const [tab, setTab] = useState("dashboard");
   const [booking, setBooking] = useState([]);
   const [listing, setListing] = useState([]);
+  console.log(booking)
 
   const router = useRouter();
 
@@ -42,7 +43,6 @@ export default function Dashboard() {
       );
       if (response.ok) {
         const data = response.json();
-        console.log(data);
       }
     }
   };

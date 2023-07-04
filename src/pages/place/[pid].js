@@ -12,23 +12,31 @@ import Navigation from "@/components/navigation/navigation";
 export default function SinglePlace() {
   const [token, setToken] = useState(null);
   const [book, setBook] = useState(null);
-  const [days, setDays] = useState(1)
+  const [days, setDays] = useState(1);
+  const [place, setPlace] = useState(null);
+  const [rooms, setRooms] = useState(null)
+  const [room, setRoom] = useState()
 
   const startDate = useRef();
   const lastDate = useRef();
 
-  function getDays () {
-    if(startDate.current.value && lastDate.current.value) {
+  function getDays() {
+    if (startDate.current.value && lastDate.current.value) {
       var date1 = new Date(startDate.current.value);
       date1.setMinutes(date1.getMinutes() - date1.getTimezoneOffset());
-  
+
       var date2 = new Date(lastDate.current.value);
       date2.setMinutes(date2.getMinutes() - date2.getTimezoneOffset());
-  
+
       var millisecondsPerDay = 24 * 60 * 60 * 1000;
       const result = (date2 - date1) / millisecondsPerDay;
-      setDays(result)
+      setDays(result);
     }
+  }
+
+  function getRoomType (value) {
+    const filteredRoom = rooms.filter(room => room.name === value)
+    setRoom(filteredRoom)
   }
 
   useEffect(() => {
@@ -37,16 +45,16 @@ export default function SinglePlace() {
 
   const router = useRouter();
   const { pid } = router.query;
-  const [place, setPlace] = useState(null);
 
   const bookPlace = async () => {
     axios
       .post(
-        "https://otaq-api.onrender.com/places/book",
+        "http://localhost:4000/places/book",
         {
           placeId: place._id,
           startDate: startDate.current.value,
           lastDate: lastDate.current.value,
+          room: room[0].name,
         },
         {
           headers: {
@@ -78,6 +86,8 @@ export default function SinglePlace() {
         );
         const data = await resp.json();
         setPlace(data);
+        setRooms([data.roomOne, data.roomTwo, data.roomThree])
+        setRoom([data.roomOne, data.roomTwo, data.roomThree].filter(room => room.name === 'Deluxe'))
       }
     }
     getPlace();
@@ -87,11 +97,14 @@ export default function SinglePlace() {
     <>
       {place ? (
         <>
-          <Navigation />{" "}
+          <Navigation />
           <div className={styles["main-content"]}>
             <Image
               className={styles["card--banner"]}
-              src={'data:image/jpeg;base64,' + place.images[0].data.toString('base64')}
+              src={
+                "data:image/jpeg;base64," +
+                place.roomOne.images[0].data.toString("base64")
+              }
               alt=""
               fill
             />
@@ -137,19 +150,25 @@ export default function SinglePlace() {
                       is the biggest and most amenity filled villa in the
                       Samujana development. Indoor and outdoor areas are
                       spacious enough for a large amount of guests, merging
-                      seamlessly in an open concept design.{" "}
+                      seamlessly in an open concept design.
                     </p>
                   </div>
                   <div className={styles["apartment--gallery"]}>
                     <div className={styles["gallery--two-images"]}>
                       <Image
-                        src={'data:image/jpeg;base64,' + place.images[1].data.toString('base64')}
+                        src={
+                          "data:image/jpeg;base64," +
+                          room[0].images[1].data.toString("base64")
+                        }
                         alt=""
                         width={300}
                         height={300}
                       />
                       <Image
-                        src={'data:image/jpeg;base64,' + place.images[2].data.toString('base64')}
+                        src={
+                          "data:image/jpeg;base64," +
+                          room[0].images[2].data.toString("base64")
+                        }
                         alt=""
                         width={300}
                         height={300}
@@ -157,19 +176,28 @@ export default function SinglePlace() {
                     </div>
                     <div className={styles["gallery--three-images"]}>
                       <Image
-                        src={'data:image/jpeg;base64,' + place.images[0].data.toString('base64')}
+                        src={
+                          "data:image/jpeg;base64," +
+                          room[0].images[0].data.toString("base64")
+                        }
                         alt=""
                         width={300}
                         height={300}
                       />
                       <Image
-                        src={'data:image/jpeg;base64,' + place.images[1].data.toString('base64')}
+                        src={
+                          "data:image/jpeg;base64," +
+                          room[0].images[1].data.toString("base64")
+                        }
                         alt=""
                         width={300}
                         height={300}
                       />
                       <Image
-                        src={'data:image/jpeg;base64,' + place.images[2].data.toString('base64')}
+                        src={
+                          "data:image/jpeg;base64," +
+                          room[0].images[2].data.toString("base64")
+                        }
                         alt=""
                         width={300}
                         height={300}
@@ -180,7 +208,7 @@ export default function SinglePlace() {
                 <div className={styles["apartment--card"]}>
                   <div className={styles["price-info--container"]}>
                     <div className={styles.row}>
-                      <h3>Rs{place.price}</h3>
+                      <h3>Rs{room[0].price}</h3>
                       <span>night</span>
                     </div>
                     <a href="">2 reviews</a>
@@ -203,11 +231,13 @@ export default function SinglePlace() {
                           onChange={getDays}
                         />
                       </div>
-                      <select name="guests">
-                        <option>Adults</option>
-                        <option>Children</option>
-                        <option>Infants</option>
-                        <option>Pets</option>
+                      <select
+                        name="guests"
+                        onChange={(e) => getRoomType(e.target.value)}
+                      >
+                        <option defaultChecked value="Deluxe">Deluxe</option>
+                        <option value="Executive">Executive</option>
+                        <option value="Super Deluxe">Super Deluxe</option>
                       </select>
                     </div>
                     <button disabled={book ? true : false} onClick={bookPlace}>
@@ -217,8 +247,10 @@ export default function SinglePlace() {
                   </div>
                   <div className={styles["price--details"]}>
                     <div className={styles.row}>
-                      <a href="">Rs{place.price} x {days} nights</a>
-                      <span>{place.price * days}</span>
+                      <a href="">
+                        Rs{room[0].price} x {days} nights
+                      </a>
+                      <span>{room[0].price * days}</span>
                     </div>
                     <div className={styles.row}>
                       <span>Weekly stay discount</span>
@@ -232,7 +264,7 @@ export default function SinglePlace() {
                   <div className="divider"></div>
                   <div className={styles["final-price--container"]}>
                     <span>Total before taxes</span>
-                    <span>Rs{place.price * days}</span>
+                    <span>Rs{room[0].price * days}</span>
                   </div>
                 </div>
               </div>

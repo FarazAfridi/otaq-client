@@ -17,6 +17,7 @@ export default function Home() {
         "https://otaq-api.onrender.com/places/get/approved"
       );
       const data = await resp.json();
+
       setPlaces(data);
     }
     getPlaces();

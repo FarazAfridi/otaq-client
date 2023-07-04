@@ -7,7 +7,8 @@ import { useRouter } from "next/router";
 
 const Card = (props) => {
   const router = useRouter();
-  console.log(props)
+  const places = props.places.slice(-2)
+  console.log(places)
   return (
     <div className={styles.cards} id="places">
       <div
@@ -30,7 +31,7 @@ const Card = (props) => {
         </p>
       </div>
 
-      {props.places.map((place, i) => (
+      {places.map((place, i) => (
         <div key={place._id.toString()} className={styles.card}>
           <Carousel
             showStatus={false}
@@ -46,7 +47,7 @@ const Card = (props) => {
                 onClick={() => {
                   router.push(`/place/${place._id.toString()}`);
                 }}
-                src={'data:image/jpeg;base64,' + place.images[0].data.toString('base64')}
+                src={'data:image/jpeg;base64,' + place.roomOne.images[0].data.toString('base64')}
                 width={300}
                 height={300}
                 alt=""
@@ -57,7 +58,7 @@ const Card = (props) => {
                 onClick={() => {
                   router.push(`/place/${place._id.toString()}`);
                 }}
-                src={'data:image/jpeg;base64,' + place.images[1].data.toString('base64')}
+                src={'data:image/jpeg;base64,' + place.roomTwo.images[1].data.toString('base64')}
                 width={300}
                 height={300}
                 alt=""
@@ -68,7 +69,7 @@ const Card = (props) => {
                 onClick={() => {
                   router.push(`/place/${place._id.toString()}`);
                 }}
-                src={'data:image/jpeg;base64,' + place.images[2].data.toString('base64')}
+                src={'data:image/jpeg;base64,' + place.roomThree.images[2].data.toString('base64')}
                 width={300}
                 height={300}
                 alt=""
@@ -85,14 +86,15 @@ const Card = (props) => {
             <div className={styles.col}>
               <p className={styles.card__name}>{place.name}</p>
               <div className={styles.card__price_container}>
-                <span className={styles.card__price}>Rs{place.price}</span>
+                <span className={styles.card__price}>Rs{place.roomOne.price}</span>
                 <span className={styles.card__night}>/night</span>
               </div>
             </div>
             <div className="divider"></div>
             <div className={styles["card--info"]}>
-              <p className={styles.card__distance}>3000m elevation</p>
-              <p className={styles.card__date}>{place.roomType}</p>
+              <p className={styles.card__distance}>{place.roomOne.name}</p>
+              <p className={styles.card__date}>{place.roomTwo.name}</p>
+              <p className={styles.card__date}>{place.roomThree.name}</p>
             </div>
           </div>
         </div>
