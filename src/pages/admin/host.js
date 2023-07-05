@@ -119,6 +119,230 @@ export default function Host() {
           encType="multipart/form-data"
         >
           <h1 className={styles.main_heading}>Host A Place</h1>
+          <div className={styles["room--container"]}>
+            <div className={styles["inputs"]}>
+              <select
+                className={styles["select"]}
+                onChange={(e) => setRoom1Name(e.target.value)}
+                name="roomType"
+              >
+                <option selected disabled hidden>
+                  Room Type
+                </option>
+                <option value="">None</option>
+                <option value="Normal">Normal</option>
+                <option value="Deluxe">Deluxe</option>
+                <option value="Executive">Executive</option>
+                <option value="Super Deluxe">Super Deluxe</option>
+              </select>
+              <textarea
+                className={styles.textarea}
+                name=""
+                id=""
+                cols="20"
+                rows="2"
+                onChange={(e) => setRoom1Description(e.target.value)}
+                placeholder="Room 1 Description"
+              ></textarea>
+              <input
+                className={styles.input}
+                type="text"
+                name=""
+                id=""
+                placeholder="Room 1 Rent"
+                onChange={(e) => setRoom1Price(e.target.value)}
+              />
+              <input
+                className={styles.input}
+                type="number"
+                name=""
+                id=""
+                placeholder="Room 1 Capacity"
+                onChange={(e) => setRoom1Capacity(e.target.value)}
+              />
+            </div>
+            <div className={styles["images"]}>
+              <input
+                onChange={(e) => {
+                  const newFiles = [];
+                  for (let i = 0; i < e.target.files.length; i++) {
+                    newFiles.push(e.target.files[i]);
+                  }
+                  setRoom1Images((prev) =>
+                    prev ? [...prev, ...newFiles] : newFiles
+                  );
+                }}
+                name="room1"
+                multiple
+                className={styles["image--input"]}
+                type="file"
+                id="file_input"
+              />
+              <label
+                className={styles.label}
+                htmlFor="file_input"
+                name="images"
+              >
+                <Image className={styles.img} src={uploadIcon} alt="" /> Choose
+                A Photo
+              </label>
+              <div className={styles.images}>
+                {room1Images
+                  ? room1Images.map((file) => previewImages(file))
+                  : ""}
+              </div>
+            </div>
+          </div>
+          <div className={styles["room--container"]}>
+            <div className={styles["inputs"]}>
+              <select
+                className={styles["select"]}
+                onChange={(e) => setRoom2Name(e.target.value)}
+                name="roomType"
+              >
+                <option selected disabled hidden>
+                  Room Type
+                </option>
+                <option value="">None</option>
+                <option value="Normal">Normal</option>
+                <option value="Deluxe">Deluxe</option>
+                <option value="Executive">Executive</option>
+                <option value="Super Deluxe">Super Deluxe</option>
+              </select>
+              <textarea
+                className={styles.textarea}
+                name=""
+                id=""
+                cols="20"
+                rows="2"
+                onChange={(e) => setRoom2Description(e.target.value)}
+                placeholder="Room 2 Description"
+              ></textarea>
+              <input
+                className={styles.input}
+                type="text"
+                name=""
+                id=""
+                placeholder="Room 2 Rent"
+                onChange={(e) => setRoom2Price(e.target.value)}
+              />
+              <input
+                className={styles.input}
+                type="number"
+                name=""
+                id=""
+                placeholder="Room 2 Capacity"
+                onChange={(e) => setRoom2Capacity(e.target.value)}
+              />
+            </div>
+            <div className={styles["images"]}>
+              <input
+                onChange={(e) => {
+                  const newFiles = [];
+                  for (let i = 0; i < e.target.files.length; i++) {
+                    newFiles.push(e.target.files[i]);
+                  }
+                  setRoom2Images((prev) =>
+                    prev ? [...prev, ...newFiles] : newFiles
+                  );
+                }}
+                name="room2"
+                multiple
+                className={styles["image--input"]}
+                type="file"
+                id="file_input2"
+              />
+              <label
+                className={styles.label}
+                htmlFor="file_input2"
+                name="images"
+              >
+                <Image className={styles.img} src={uploadIcon} alt="" /> Choose
+                A Photo
+              </label>
+              <div className={styles.images}>
+                {room2Images
+                  ? room2Images.map((file) => previewImages(file))
+                  : ""}
+              </div>
+            </div>
+          </div>
+          <div className={styles["room--container"]}>
+            <div className={styles["inputs"]}>
+              <select
+                className={styles["select"]}
+                onChange={(e) => setRoom3Name(e.target.value)}
+                name="roomType"
+              >
+                <option selected disabled hidden>
+                  Room Type
+                </option>
+                <option value="">None</option>
+                <option value="Normal">Normal</option>
+                <option value="Deluxe">Deluxe</option>
+                <option value="Executive">Executive</option>
+                <option value="Super Deluxe">Super Deluxe</option>
+              </select>
+
+              <textarea
+                className={styles.textarea}
+                name=""
+                id=""
+                cols="20"
+                rows="2"
+                onChange={(e) => setRoom3Description(e.target.value)}
+                placeholder="Room 3 Description"
+              ></textarea>
+              <input
+                className={styles.input}
+                type="text"
+                name=""
+                id=""
+                placeholder="Room 3 Rent"
+                onChange={(e) => setRoom3Price(e.target.value)}
+              />
+              <input
+                className={styles.input}
+                type="number"
+                name=""
+                id=""
+                placeholder="Room 3 Capacity"
+                onChange={(e) => setRoom3Capacity(e.target.value)}
+              />
+            </div>
+            <div className={styles["images"]}>
+              <input
+                onChange={(e) => {
+                  const newFiles = [];
+                  for (let i = 0; i < e.target.files.length; i++) {
+                    newFiles.push(e.target.files[i]);
+                  }
+                  setRoom3Images((prev) =>
+                    prev ? [...prev, ...newFiles] : newFiles
+                  );
+                }}
+                name="room3"
+                multiple
+                className={styles["image--input"]}
+                type="file"
+                id="file_input3"
+              />
+              <label
+                className={styles.label}
+                htmlFor="file_input3"
+                name="images"
+              >
+                <Image className={styles.img} src={uploadIcon} alt="" /> Choose
+                A Photo
+              </label>
+
+              <div className={styles.images}>
+                {room3Images
+                  ? room3Images.map((file) => previewImages(file))
+                  : ""}
+              </div>
+            </div>
+          </div>
           <div className="col">
             <input
               className={styles.input}
@@ -127,130 +351,6 @@ export default function Host() {
               id=""
               placeholder="Name"
               onChange={(e) => setName(e.target.value)}
-            />
-
-            <select
-              className={styles["select"]}
-              onChange={(e) => setRoom1Name(e.target.value)}
-              name="roomType"
-            >
-              <option selected disabled hidden>
-                Room Type
-              </option>
-              <option value="">None</option>
-              <option value="Normal">Normal</option>
-              <option value="Deluxe">Deluxe</option>
-              <option value="Executive">Executive</option>
-              <option value="Super Deluxe">Super Deluxe</option>
-            </select>
-            <textarea
-            className={styles.textarea}
-            name=""
-            id=""
-            cols="20"
-            rows="2"
-            onChange={(e) => setRoom1Description(e.target.value)}
-            placeholder="Room 1 Description"
-          ></textarea>
-            <input
-              className={styles.input}
-              type="text"
-              name=""
-              id=""
-              placeholder="Room 1 Rent"
-              onChange={(e) => setRoom1Price(e.target.value)}
-            />
-            <input
-              className={styles.input}
-              type="number"
-              name=""
-              id=""
-              placeholder="Room 1 Capacity"
-              onChange={(e) => setRoom1Capacity(e.target.value)}
-            />
-
-            <select
-              className={styles["select"]}
-              onChange={(e) => setRoom2Name(e.target.value)}
-              name="roomType"
-            >
-              <option selected disabled hidden>
-                Room Type
-              </option>
-              <option value="">None</option>
-              <option value="Normal">Normal</option>
-              <option value="Deluxe">Deluxe</option>
-              <option value="Executive">Executive</option>
-              <option value="Super Deluxe">Super Deluxe</option>
-            </select>
-            <textarea
-            className={styles.textarea}
-            name=""
-            id=""
-            cols="20"
-            rows="2"
-            onChange={(e) => setRoom2Description(e.target.value)}
-            placeholder="Room 2 Description"
-          ></textarea>
-            <input
-              className={styles.input}
-              type="text"
-              name=""
-              id=""
-              placeholder="Room 2 Rent"
-              onChange={(e) => setRoom2Price(e.target.value)}
-            />
-            <input
-              className={styles.input}
-              type="number"
-              name=""
-              id=""
-              placeholder="Room 2 Capacity"
-              onChange={(e) => setRoom2Capacity(e.target.value)}
-            />
-
-            
-          </div>
-          <div className="col">
-          <select
-              className={styles["select"]}
-              onChange={(e) => setRoom3Name(e.target.value)}
-              name="roomType"
-            >
-              <option selected disabled hidden>
-                Room Type
-              </option>
-              <option value="">None</option>
-              <option value="Normal">Normal</option>
-              <option value="Deluxe">Deluxe</option>
-              <option value="Executive">Executive</option>
-              <option value="Super Deluxe">Super Deluxe</option>
-            </select>
-
-          <textarea
-            className={styles.textarea}
-            name=""
-            id=""
-            cols="20"
-            rows="2"
-            onChange={(e) => setRoom3Description(e.target.value)}
-            placeholder="Room 2 Description"
-          ></textarea>
-            <input
-              className={styles.input}
-              type="text"
-              name=""
-              id=""
-              placeholder="Room 3 Rent"
-              onChange={(e) => setRoom3Price(e.target.value)}
-            />
-            <input
-              className={styles.input}
-              type="number"
-              name=""
-              id=""
-              placeholder="Room 3 Capacity"
-              onChange={(e) => setRoom3Capacity(e.target.value)}
             />
             <input
               className={styles.input}
@@ -261,8 +361,6 @@ export default function Host() {
               onChange={(e) => setCity(e.target.value)}
             />
           </div>
-
-
           <textarea
             className={styles.textarea}
             name=""
@@ -272,81 +370,6 @@ export default function Host() {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Description"
           ></textarea>
-
-          <input
-            onChange={(e) => {
-              const newFiles = [];
-              for (let i = 0; i < e.target.files.length; i++) {
-                newFiles.push(e.target.files[i]);
-              }
-              setRoom1Images((prev) =>
-                prev ? [...prev, ...newFiles] : newFiles
-              );
-            }}
-            name="room1"
-            multiple
-            className={styles["image--input"]}
-            type="file"
-            id="file_input"
-          />
-          <label className={styles.label} htmlFor="file_input" name="images">
-            <Image className={styles.img} src={uploadIcon} alt="" /> Choose A
-            Photo
-          </label>
-
-          <div className={styles.images}>
-            {room1Images ? room1Images.map((file) => previewImages(file)) : ""}
-          </div>
-
-          <input
-            onChange={(e) => {
-              const newFiles = [];
-              for (let i = 0; i < e.target.files.length; i++) {
-                newFiles.push(e.target.files[i]);
-              }
-              setRoom2Images((prev) =>
-                prev ? [...prev, ...newFiles] : newFiles
-              );
-            }}
-            name="room2"
-            multiple
-            className={styles["image--input"]}
-            type="file"
-            id="file_input2"
-          />
-          <label className={styles.label} htmlFor="file_input2" name="images">
-            <Image className={styles.img} src={uploadIcon} alt="" /> Choose A
-            Photo
-          </label>
-
-          <div className={styles.images}>
-            {room2Images ? room2Images.map((file) => previewImages(file)) : ""}
-          </div>
-
-          <input
-            onChange={(e) => {
-              const newFiles = [];
-              for (let i = 0; i < e.target.files.length; i++) {
-                newFiles.push(e.target.files[i]);
-              }
-              setRoom3Images((prev) =>
-                prev ? [...prev, ...newFiles] : newFiles
-              );
-            }}
-            name="room3"
-            multiple
-            className={styles["image--input"]}
-            type="file"
-            id="file_input3"
-          />
-          <label className={styles.label} htmlFor="file_input3" name="images">
-            <Image className={styles.img} src={uploadIcon} alt="" /> Choose A
-            Photo
-          </label>
-
-          <div className={styles.images}>
-            {room3Images ? room3Images.map((file) => previewImages(file)) : ""}
-          </div>
 
           <button className={styles.button} type="submit">
             Submit

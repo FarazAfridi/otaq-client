@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useEffect, useState, useRef } from "react";
 import Navigation from "@/components/navigation/navigation";
+import Footer from "@/components/footer/footer";
 
 export default function SinglePlace() {
   const [token, setToken] = useState(null);
@@ -65,7 +66,8 @@ export default function SinglePlace() {
       )
       .then(function (response) {
         setBook(response.data);
-        toast("Your order has been placed. Thank you", {
+        console.log(response)
+        toast(response.data, {
           hideProgressBar: true,
           autoClose: 2000,
           type: "success",
@@ -73,8 +75,8 @@ export default function SinglePlace() {
       })
       .catch(function (error) {
         console.log(error);
-        localStorage.removeItem("token");
-        router.push("/login");
+        // localStorage.removeItem("token");
+        // router.push("/login");
       });
   };
 
@@ -240,7 +242,7 @@ export default function SinglePlace() {
                         <option value="Super Deluxe">Super Deluxe</option>
                       </select>
                     </div>
-                    <button disabled={book ? true : false} onClick={bookPlace}>
+                    <button  onClick={bookPlace}>
                       {book ? "BOOKED" : "Reserve"}
                     </button>
                     <span>You won&apos;t be charged yet</span>
@@ -270,6 +272,7 @@ export default function SinglePlace() {
               </div>
             </div>
           </div>
+          <Footer />
         </>
       ) : (
         <h1>Loading....</h1>
