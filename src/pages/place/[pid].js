@@ -50,7 +50,7 @@ export default function SinglePlace() {
   const bookPlace = async () => {
     axios
       .post(
-        "http://localhost:4000/places/book",
+        "https://otaq-api.onrender.com/places/book",
         {
           placeId: place._id,
           startDate: startDate.current.value,
@@ -66,17 +66,25 @@ export default function SinglePlace() {
       )
       .then(function (response) {
         setBook(response.data);
-        console.log(response)
-        toast(response.data, {
-          hideProgressBar: true,
-          autoClose: 2000,
-          type: "success",
-        });
+        if(response.data === "Sorry! The room is already booked") {
+          toast(response.data, {
+            hideProgressBar: true,
+            autoClose: 2000,
+            type: "error",
+          });
+        } else{
+          toast(response.data, {
+            hideProgressBar: true,
+            autoClose: 2000,
+            type: "success",
+          });
+        }
+        
       })
       .catch(function (error) {
         console.log(error);
-        // localStorage.removeItem("token");
-        // router.push("/login");
+        localStorage.removeItem("token");
+        router.push("/login");
       });
   };
 
@@ -242,7 +250,7 @@ export default function SinglePlace() {
                         <option value="Super Deluxe">Super Deluxe</option>
                       </select>
                     </div>
-                    <button  onClick={bookPlace}>
+                    <button disabled={book ? true : false}  onClick={bookPlace}>
                       {book ? "BOOKED" : "Reserve"}
                     </button>
                     <span>You won&apos;t be charged yet</span>
