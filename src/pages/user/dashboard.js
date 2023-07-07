@@ -6,14 +6,11 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-// import Table from "@/components/table/table";
-// import PlaceApprovalContainer from "@/components/placeApprovalContainer/placeApprovalContainer";
 
 export default function Dashboard() {
   const [tab, setTab] = useState("dashboard");
   const [booking, setBooking] = useState([]);
   const [listing, setListing] = useState([]);
-  console.log(booking)
 
   const router = useRouter();
 
@@ -52,7 +49,7 @@ export default function Dashboard() {
       async function getUserBookings() {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          "https://otaq-api.onrender.com/places/get/booking",
+          "http://localhost:4000/places/get/booking",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -206,7 +203,9 @@ export default function Dashboard() {
                 </div>
                 {listing.length > 0 ? (
                   <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
-                    {listing.map((l) => (
+                    {listing.map((l) => {
+                      console.log(l, 'listing')
+                      return (
                       <div key={l._id.toString()} className={styles2.card}>
                         <Carousel
                           showStatus={false}
@@ -222,7 +221,7 @@ export default function Dashboard() {
                               onClick={() => {
                                 router.push(`/place/${l._id.toString()}`);
                               }}
-                              src={'data:image/jpeg;base64,' + l.images[0].data.toString('base64')}
+                              src={'data:image/jpeg;base64,' + l.roomThree.images[0].data.toString('base64')}
                               width={300}
                               height={300}
                               alt=""
@@ -233,7 +232,7 @@ export default function Dashboard() {
                               onClick={() => {
                                 router.push(`/place/${l._id.toString()}`);
                               }}
-                              src={'data:image/jpeg;base64,' + l.images[1].data.toString('base64')}
+                              src={'data:image/jpeg;base64,' + l.roomOne.images[1].data.toString('base64')}
                               width={300}
                               height={300}
                               alt=""
@@ -244,7 +243,7 @@ export default function Dashboard() {
                               onClick={() => {
                                 router.push(`/place/${l._id.toString()}`);
                               }}
-                              src={'data:image/jpeg;base64,' + l.images[2].data.toString('base64')}
+                              src={'data:image/jpeg;base64,' + l.roomTwo.images[2].data.toString('base64')}
                               width={300}
                               height={300}
                               alt=""
@@ -277,7 +276,7 @@ export default function Dashboard() {
                           </div>
                         </div>
                       </div>
-                    ))}
+                    )})}
                   </div>
                 ) : (
                   <h1>No Places Listed</h1>

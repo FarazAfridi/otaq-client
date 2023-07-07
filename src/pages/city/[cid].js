@@ -68,12 +68,13 @@ export default function SinglePlace() {
                   showThumbs={false}
                   showIndicators={false}
                 >
+                 
                   <div className={styles.card__image_container}>
                     <Image
                       onClick={() => {
                         router.push(`/place/${place._id.toString()}`);
                       }}
-                      src={'data:image/jpeg;base64,' + place.images[0].data.toString('base64')}
+                      src={'data:image/jpeg;base64,' + place.roomOne.images[0].data.toString('base64')}
                       width={300}
                       height={300}
                       alt=""
@@ -84,7 +85,7 @@ export default function SinglePlace() {
                       onClick={() => {
                         router.push(`/place/${place._id.toString()}`);
                       }}
-                      src={'data:image/jpeg;base64,' + place.images[1].data.toString('base64')}
+                      src={'data:image/jpeg;base64,' + place.roomTwo.images[1].data.toString('base64')}
                       width={300}
                       height={300}
                       alt=""
@@ -95,7 +96,7 @@ export default function SinglePlace() {
                       onClick={() => {
                         router.push(`/place/${place._id.toString()}`);
                       }}
-                      src={'data:image/jpeg;base64,' + place.images[2].data.toString('base64')}
+                      src={'data:image/jpeg;base64,' + place.roomThree.images[2].data.toString('base64')}
                       width={300}
                       height={300}
                       alt=""

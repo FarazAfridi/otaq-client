@@ -61,7 +61,7 @@ export default function Host() {
 
     formData.append("name", name);
     formData.append("description", description);
-    formData.append("city", city);
+    formData.append("city", city.charAt(0).toUpperCase() + string.slice(1));
 
     formData.append("room1Name", room1Name);
     formData.append("room1Description", room1Description);
@@ -80,7 +80,7 @@ export default function Host() {
 
     try {
       const response = await fetch(
-        "https://otaq-api.onrender.com/places/add/approved",
+        "http://localhost:4000/places/add/approved",
         {
           method: "POST",
           headers: {

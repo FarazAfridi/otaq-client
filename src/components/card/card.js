@@ -7,8 +7,7 @@ import { useRouter } from "next/router";
 
 const Card = (props) => {
   const router = useRouter();
-  const places = props.places.slice(-2)
-  console.log(places)
+  const places = props.places
   return (
     <div className={styles.cards} id="places">
       <div

@@ -56,7 +56,7 @@ export default function Admin() {
       const token = localStorage.getItem("token");
       async function getOrders() {
         const response = await fetch(
-          "https://otaq-api.onrender.com/places/book",
+          "http://localhost:4000/places/book",
           {
             headers: {
               "Content-Type": "application/json",
