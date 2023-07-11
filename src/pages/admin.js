@@ -192,6 +192,7 @@ export default function Admin() {
                   "Email:",
                   "Place:",
                   "Payment:",
+                  "Status"
                 ]}
                 type="orders"
               />

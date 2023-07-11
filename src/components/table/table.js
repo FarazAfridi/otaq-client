@@ -43,6 +43,7 @@ export default function Table(props) {
                 order && order.user && order.user.email,
                 order && order.place && order.place.name,
                 order && order.place && getTotalRent(order),
+                order && order
               ]}
             />
           ))

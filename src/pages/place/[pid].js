@@ -50,7 +50,7 @@ export default function SinglePlace() {
   const bookPlace = async () => {
     axios
       .post(
-        "https://otaq-api.onrender.com/places/book",
+        "http://localhost:4000/places/book",
         {
           placeId: place._id,
           startDate: startDate.current.value,
