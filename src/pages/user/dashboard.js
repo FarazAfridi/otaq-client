@@ -49,7 +49,7 @@ export default function Dashboard() {
       async function getUserBookings() {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          "http://localhost:4000/places/get/booking",
+          "https://otaq-api.onrender.com/places/get/booking",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -204,7 +204,6 @@ export default function Dashboard() {
                 {listing.length > 0 ? (
                   <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
                     {listing.map((l) => {
-                      console.log(l, 'listing')
                       return (
                       <div key={l._id.toString()} className={styles2.card}>
                         <Carousel

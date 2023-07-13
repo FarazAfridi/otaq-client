@@ -3,7 +3,6 @@ import TableRows from "../tableRows/tableRows";
 import styles from "@/styles/admin.module.css";
 
 export default function Table(props) {
-  console.log(props, "table props");
 
   function getTotalRent(order) {
     const room = [

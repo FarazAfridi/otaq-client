@@ -1,7 +1,10 @@
+import { useRouter } from "next/router";
 import styles from "./tableRows.module.css";
 import { toast } from "react-toastify";
 
 export default function TableRows(props) {
+  const router = useRouter();
+
   const handleOrderStatus = async (value) => {
     if (value === "Approved") {
       const id = props.tableRows[5]._id;
@@ -55,7 +58,7 @@ export default function TableRows(props) {
           {typeof tr === "object" ? (
             <select
               onChange={(e) => handleOrderStatus(e.target.value)}
-              disabled={tr.status !== "Pending"}
+              disabled={router.pathname === '/user/dashboard' ? true : tr.status !== "Pending"}
             >
               {["Approved", "Pending", "Rejected"].map((status, i) => (
                 <option selected={tr.status === status} key={i} value={status}>

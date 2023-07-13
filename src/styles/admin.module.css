@@ -192,3 +192,8 @@
 .settings--container > button {
   width: 200px;
 }
+
+.active {
+  color: white;
+  background-color: rgb(84, 81, 81);
+}
