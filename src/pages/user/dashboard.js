@@ -20,6 +20,71 @@ export default function Dashboard() {
     password: "",
   });
 
+  useEffect(() => {
+    if (!router.isReady) return;
+    if (!router.query.tab || !router.query) {
+      setTab("dashboard");
+    } else if (router.query.tab === "bookedPlaces") {
+      setTab(router.query.tab);
+      if (typeof window !== "undefined") {
+        async function getUserBookings() {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            "https://otaq-api.onrender.com/places/get/booking",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          const data = await response.json();
+          setBooking(data);
+        }
+        getUserBookings();
+      }
+    } else if (router.query.tab === "settings") {
+      setTab(router.query.tab);
+      if (typeof window !== "undefined") {
+        async function getUserData() {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            "https://otaq-api.onrender.com/auth/user",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          const data = await response.json();
+          setUserSetting({
+            name: data[0].name,
+            email: data[0].email,
+            password: "",
+          });
+        }
+        getUserData();
+      }
+    } else if (router.query.tab === "listedPlaces") {
+      setTab(router.query.tab);
+      if (typeof window !== "undefined") {
+        async function getListings() {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            "https://otaq-api.onrender.com/places/get/listing",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          const data = await response.json();
+          setListing(data[0].listing);
+        }
+        getListings();
+      }
+    }
+  }, [router.isReady, router.asPath]);
+
   const handleChange = async () => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
@@ -44,67 +109,6 @@ export default function Dashboard() {
     }
   };
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      async function getUserBookings() {
-        const token = localStorage.getItem("token");
-        const response = await fetch(
-          "https://otaq-api.onrender.com/places/get/booking",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const data = await response.json();
-        setBooking(data);
-      }
-      getUserBookings();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      async function getUserData() {
-        const token = localStorage.getItem("token");
-        const response = await fetch(
-          "https://otaq-api.onrender.com/auth/user",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const data = await response.json();
-        setUserSetting({
-          name: data[0].name,
-          email: data[0].email,
-          password: "",
-        });
-      }
-      getUserData();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      async function getListings() {
-        const token = localStorage.getItem("token");
-        const response = await fetch(
-          "https://otaq-api.onrender.com/places/get/listing",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const data = await response.json();
-        setListing(data[0].listing);
-      }
-      getListings();
-    }
-  }, []);
-
   return (
     <>
       <div className={styles["admin--panel--container"]}>
@@ -117,33 +121,44 @@ export default function Dashboard() {
         <div className={styles["admin--panel"]}>
           <div className={styles["admin--sidebar"]}>
             <button
-              className="default-button"
+              className={tab === "dashboard" ? styles["active"] : "default-button"}
               onClick={() => {
-                setTab("dashboard");
+                router.push({
+                  pathname: "/user/dashboard",
+                });
               }}
             >
               Dashboard
             </button>
             <button
-              className="default-button"
+              className={tab === "bookedPlaces" ? styles["active"] : "default-button"}
               onClick={() => {
-                setTab("bookedPlaces");
+                router.push({
+                  pathname: "/user/dashboard",
+                  query: { tab: "bookedPlaces" },
+                });
               }}
             >
               Booked Places
             </button>
             <button
-              className="default-button"
+              className={tab === "listedPlaces" ? styles["active"] : "default-button"}
               onClick={() => {
-                setTab("listedPlaces");
+                router.push({
+                  pathname: "/user/dashboard",
+                  query: { tab: "listedPlaces" },
+                });
               }}
             >
               Listed Places
             </button>
             <button
-              className="default-button"
+              className={tab === "settings" ? styles["active"] : "default-button"}
               onClick={() => {
-                setTab("settings");
+                router.push({
+                  pathname: "/user/dashboard",
+                  query: { tab: "settings" },
+                });
               }}
             >
               Settings
@@ -202,80 +217,96 @@ export default function Dashboard() {
                   <h2>Listed Places</h2>
                 </div>
                 {listing.length > 0 ? (
-                  <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      justifyContent: "space-around",
+                    }}
+                  >
                     {listing.map((l) => {
                       return (
-                      <div key={l._id.toString()} className={styles2.card}>
-                        <Carousel
-                          showStatus={false}
-                          interval={2000}
-                          infiniteLoop={false}
-                          autoPlay={true}
-                          transitionTime={500}
-                          showThumbs={false}
-                          showIndicators={false}
-                        >
-                          <div className={styles2.card__image_container}>
-                            <Image
-                              onClick={() => {
-                                router.push(`/place/${l._id.toString()}`);
-                              }}
-                              src={'data:image/jpeg;base64,' + l.roomThree.images[0].data.toString('base64')}
-                              width={300}
-                              height={300}
-                              alt=""
-                            />
-                          </div>
-                          <div className={styles2.card__image_container}>
-                            <Image
-                              onClick={() => {
-                                router.push(`/place/${l._id.toString()}`);
-                              }}
-                              src={'data:image/jpeg;base64,' + l.roomOne.images[1].data.toString('base64')}
-                              width={300}
-                              height={300}
-                              alt=""
-                            />
-                          </div>
-                          <div className={styles2.card__image_container}>
-                            <Image
-                              onClick={() => {
-                                router.push(`/place/${l._id.toString()}`);
-                              }}
-                              src={'data:image/jpeg;base64,' + l.roomTwo.images[2].data.toString('base64')}
-                              width={300}
-                              height={300}
-                              alt=""
-                            />
-                          </div>
-                        </Carousel>
-                        <div
-                          className={styles2["card--details"]}
-                          onClick={() => {
-                            router.push(`/place/${l._id.toString()}`);
-                          }}
-                        >
-                          <div className={styles2.col}>
-                            <p className={styles2.card__name}>{l.name}</p>
-                            <div className={styles2.card__price_container}>
-                              <span className={styles2.card__price}>
-                                Rs{l.price}
-                              </span>
-                              <span className={styles2.card__night}>/night</span>
+                        <div key={l._id.toString()} className={styles2.card}>
+                          <Carousel
+                            showStatus={false}
+                            interval={2000}
+                            infiniteLoop={false}
+                            autoPlay={true}
+                            transitionTime={500}
+                            showThumbs={false}
+                            showIndicators={false}
+                          >
+                            <div className={styles2.card__image_container}>
+                              <Image
+                                onClick={() => {
+                                  router.push(`/place/${l._id.toString()}`);
+                                }}
+                                src={
+                                  "data:image/jpeg;base64," +
+                                  l.roomThree.images[0].data.toString("base64")
+                                }
+                                width={300}
+                                height={300}
+                                alt=""
+                              />
+                            </div>
+                            <div className={styles2.card__image_container}>
+                              <Image
+                                onClick={() => {
+                                  router.push(`/place/${l._id.toString()}`);
+                                }}
+                                src={
+                                  "data:image/jpeg;base64," +
+                                  l.roomOne.images[1].data.toString("base64")
+                                }
+                                width={300}
+                                height={300}
+                                alt=""
+                              />
+                            </div>
+                            <div className={styles2.card__image_container}>
+                              <Image
+                                onClick={() => {
+                                  router.push(`/place/${l._id.toString()}`);
+                                }}
+                                src={
+                                  "data:image/jpeg;base64," +
+                                  l.roomTwo.images[2].data.toString("base64")
+                                }
+                                width={300}
+                                height={300}
+                                alt=""
+                              />
+                            </div>
+                          </Carousel>
+                          <div
+                            className={styles2["card--details"]}
+                            onClick={() => {
+                              router.push(`/place/${l._id.toString()}`);
+                            }}
+                          >
+                            <div className={styles2.col}>
+                              <p className={styles2.card__name}>{l.name}</p>
+                              <div className={styles2.card__price_container}>
+                                <span className={styles2.card__price}>
+                                  Rs{l.price}
+                                </span>
+                                <span className={styles2.card__night}>
+                                  /night
+                                </span>
+                              </div>
+                            </div>
+                            <div className="divider"></div>
+                            <div className={styles2["card--info"]}>
+                              <p className={styles2.card__distance}>
+                                3000m elevation
+                              </p>
+                              <p className={styles2.card__date}>{l.roomType}</p>
                             </div>
                           </div>
-                          <div className="divider"></div>
-                          <div className={styles2["card--info"]}>
-                            <p className={styles2.card__distance}>
-                              3000m elevation
-                            </p>
-                            <p className={styles2.card__date}>
-                              {l.roomType}
-                            </p>
-                          </div>
                         </div>
-                      </div>
-                    )})}
+                      );
+                    })}
                   </div>
                 ) : (
                   <h1>No Places Listed</h1>
@@ -291,7 +322,10 @@ export default function Dashboard() {
                   <div
                     className={styles.dashboard_card_lower_child}
                     onClick={() => {
-                      setTab("bookedPlaces");
+                      router.push({
+                        pathname: "/user/dashboard",
+                        query: { tab: "bookedPlaces" },
+                      });
                     }}
                   >
                     More Info
@@ -305,7 +339,10 @@ export default function Dashboard() {
                   <div
                     className={styles.dashboard_card_lower_child}
                     onClick={() => {
-                      setTab("bookedPlaces");
+                      router.push({
+                        pathname: "/user/dashboard",
+                        query: { tab: "bookedPlaces" },
+                      });
                     }}
                   >
                     More Info
@@ -319,7 +356,10 @@ export default function Dashboard() {
                   <div
                     className={styles.dashboard_card_lower_child}
                     onClick={() => {
-                      setTab("listedPlaces");
+                      router.push({
+                        pathname: "/user/dashboard",
+                        query: { tab: "listedPlaces" },
+                      });
                     }}
                   >
                     More Info
@@ -352,6 +392,7 @@ export default function Dashboard() {
                       "Email:",
                       "Place:",
                       "Payment:",
+                      "Status:",
                     ]}
                     type="orders"
                   />

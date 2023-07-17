@@ -19,15 +19,51 @@ export default function Admin() {
   });
   console.log(tab);
 
+  const [dataCount, setDataCount] = useState({
+    ordersCount: 0,
+    placesCount: 0,
+    unapprovedPlaceCount: 0,
+    usersCount: 0,
+  });
+
   useEffect(() => {
     if (!router.isReady) return;
     if (!router.query.tab || !router.query) {
       setTab("dashboard");
-      return;
+      if (typeof window !== "undefined") {
+        const token = localStorage.getItem("token");
+        async function getCount() {
+          const response = await fetch(
+            "https://otaq-api.onrender.com/places/count",
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          const data = await response.json();
+          setDataCount({
+            usersCount: data.users,
+            unapprovedPlaceCount: data.unapprovedPlaces,
+            ordersCount: data.orders,
+            placesCount: data.places,
+          });
+        }
+        getCount();
+      }
     } else if (router.query.tab === "users") {
       console.log("users");
+      setTab(router.query.tab);
+      function getUserCount(users, userRole) {
+        const filteredUsers = users.filter((user) => user.role === userRole);
+        const count = filteredUsers.length;
+        return count;
+      }
 
       async function getUsers() {
+       
         if (typeof window !== "undefined") {
           const token = localStorage.getItem("token");
           const response = await fetch(
@@ -48,11 +84,11 @@ export default function Admin() {
             users: userCount,
           });
           setUsers(data);
-          setTab(router.query.tab);
         }
       }
       getUsers();
     } else if (router.query.tab === "places") {
+      setTab(router.query.tab);
       async function getPlaces() {
         if (typeof window !== "undefined") {
           const token = localStorage.getItem("token");
@@ -66,11 +102,12 @@ export default function Admin() {
           );
           const data = await response.json();
           setPlaces(data);
-          setTab(router.query.tab);
+          
         }
       }
       getPlaces();
-    } else {
+    } else if (router.query.tab === "unapprovedPlaces") {
+      setTab(router.query.tab);
       async function getUnapprovedPlaces() {
         if (typeof window !== "undefined") {
           const token = localStorage.getItem("token");
@@ -84,121 +121,30 @@ export default function Admin() {
           );
           const data = await response.json();
           setUnapprovedPlace(data);
-          setTab(router.query.tab);
         }
       }
       getUnapprovedPlaces();
-    }
-  }, [router.isReady]);
-
-  const [dataCount, setDataCount] = useState({
-    ordersCount: 0,
-    placesCount: 0,
-    unapprovedPlaceCount: 0,
-    usersCount: 0,
-  });
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
-      async function getCount() {
-        const response = await fetch(
-          "https://otaq-api.onrender.com/places/count",
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        const data = await response.json();
-        setDataCount({
-          usersCount: data.users,
-          unapprovedPlaceCount: data.unapprovedPlaces,
-          ordersCount: data.orders,
-          placesCount: data.places,
-        });
-      }
-      getCount();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
-      async function getOrders() {
-        const response = await fetch("https://otaq-api.onrender.com/places/book", {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = await response.json();
-        setOrders(data);
-      }
-      getOrders();
-    }
-  }, [tab]);
-
-  async function getUnapprovedPlaces() {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
-      const response = await fetch(
-        "https://otaq-api.onrender.com/places/get/unapproved",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+    } else if (router.query.tab === "orders") {
+      setTab(router.query.tab)
+      if (typeof window !== "undefined") {
+        const token = localStorage.getItem("token");
+        async function getOrders() {
+          const response = await fetch(
+            "https://otaq-api.onrender.com/places/book",
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          const data = await response.json();
+          setOrders(data);
         }
-      );
-      const data = await response.json();
-      setUnapprovedPlace(data);
+        getOrders();
+      }
     }
-  }
-
-  async function getUsers() {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
-      const response = await fetch("https://otaq-api.onrender.com/auth/users", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      const adminCount = getUserCount(data, "Admin");
-      const vendorCount = getUserCount(data, "Vendor");
-      const userCount = getUserCount(data, "User");
-      setUserRoleCount({
-        admins: adminCount,
-        vendors: vendorCount,
-        users: userCount,
-      });
-      setUsers(data);
-    }
-  }
-
-  function getUserCount(users, userRole) {
-    const filteredUsers = users.filter((user) => user.role === userRole);
-    const count = filteredUsers.length;
-    return count;
-  }
-
-  async function getPlaces() {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
-      const response = await fetch(
-        "https://otaq-api.onrender.com/places/get/approved",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = await response.json();
-      setPlaces(data);
-    }
-  }
+  }, [router.isReady, router.asPath]);
 
   return (
     <>
@@ -215,16 +161,22 @@ export default function Admin() {
               className={
                 tab === "dashboard" ? styles["active"] : "default-button"
               }
-              onClick={() => {
-                setTab("dashboard");
-                getUnapprovedPlaces();
-              }}
+              onClick={() =>
+                router.push({
+                  pathname: "/admin",
+                })
+              }
             >
               Dashboard
             </button>
             <button
               className={tab === "orders" ? styles["active"] : "default-button"}
-              onClick={() => setTab("orders")}
+              onClick={() =>
+                srouter.push({
+                  pathname: "/admin",
+                  query: { tab: "orders" },
+                })
+              }
             >
               Orders
             </button>
@@ -233,27 +185,29 @@ export default function Admin() {
                 tab === "unapprovedPlaces" ? styles["active"] : "default-button"
               }
               onClick={() => {
-                setTab("unapprovedPlaces");
-                getUnapprovedPlaces();
+                router.push({
+                  pathname: "/admin",
+                  query: { tab: "unapprovedPlaces" },
+                });
               }}
             >
               Unapproved Places
             </button>
             <button
               className={tab === "places" ? styles["active"] : "default-button"}
-              onClick={() => {
-                setTab("places");
-                getPlaces();
-              }}
+              onClick={() => router.push({
+                        pathname: "/admin",
+                        query: { tab: "places" },
+                      })}
             >
               Places
             </button>
             <button
               className={tab === "users" ? styles["active"] : "default-button"}
-              onClick={() => {
-                setTab("users");
-                getUsers();
-              }}
+              onClick={() => router.push({
+                        pathname: "/admin",
+                        query: { tab: "users" },
+                      })}
             >
               Users
             </button>
@@ -321,10 +275,10 @@ export default function Admin() {
                   </div>
                   <div
                     className={styles.dashboard_card_lower_child}
-                    onClick={() => {
-                      setTab("users");
-                      getUsers();
-                    }}
+                    onClick={() => router.push({
+                        pathname: "/admin",
+                        query: { tab: "users" },
+                      })}
                   >
                     More Info
                   </div>
@@ -337,8 +291,10 @@ export default function Admin() {
                   <div
                     className={styles.dashboard_card_lower_child}
                     onClick={() => {
-                      setTab("places");
-                      getPlaces();
+                      router.push({
+                        pathname: "/admin",
+                        query: { tab: "places" },
+                      })
                     }}
                   >
                     More Info
@@ -351,10 +307,12 @@ export default function Admin() {
                   </div>
                   <div
                     className={styles.dashboard_card_lower_child}
-                    onClick={() => {
-                      setTab("unapprovedPlaces");
-                      getUnapprovedPlaces();
-                    }}
+                    onClick={() =>
+                      router.push({
+                        pathname: "/admin",
+                        query: { tab: "unapprovedPlaces" },
+                      })
+                    }
                   >
                     More Info
                   </div>
@@ -366,7 +324,12 @@ export default function Admin() {
                   </div>
                   <div
                     className={styles.dashboard_card_lower_child}
-                    onClick={() => setTab("orders")}
+                    onClick={() =>
+                      router.push({
+                        pathname: "/admin",
+                        query: { tab: "orders" },
+                      })
+                    }
                   >
                     More Info
                   </div>
