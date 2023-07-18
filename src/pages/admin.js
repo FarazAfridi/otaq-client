@@ -17,7 +17,6 @@ export default function Admin() {
     vendors: "0",
     users: 0,
   });
-  console.log(tab);
 
   const [dataCount, setDataCount] = useState({
     ordersCount: 0,
@@ -30,29 +29,7 @@ export default function Admin() {
     if (!router.isReady) return;
     if (!router.query.tab || !router.query) {
       setTab("dashboard");
-      if (typeof window !== "undefined") {
-        const token = localStorage.getItem("token");
-        async function getCount() {
-          const response = await fetch(
-            "https://otaq-api.onrender.com/places/count",
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          const data = await response.json();
-          setDataCount({
-            usersCount: data.users,
-            unapprovedPlaceCount: data.unapprovedPlaces,
-            ordersCount: data.orders,
-            placesCount: data.places,
-          });
-        }
-        getCount();
-      }
+      
     } else if (router.query.tab === "users") {
       console.log("users");
       setTab(router.query.tab);
@@ -146,6 +123,32 @@ export default function Admin() {
     }
   }, [router.isReady, router.asPath]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      async function getCount() {
+        const response = await fetch(
+          "https://otaq-api.onrender.com/places/count",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+        setDataCount({
+          usersCount: data.users,
+          unapprovedPlaceCount: data.unapprovedPlaces,
+          ordersCount: data.orders,
+          placesCount: data.places,
+        });
+      }
+      getCount();
+    }
+  },[tab])
+
   return (
     <>
       <div className={styles["admin--panel--container"]}>
@@ -172,7 +175,7 @@ export default function Admin() {
             <button
               className={tab === "orders" ? styles["active"] : "default-button"}
               onClick={() =>
-                srouter.push({
+                router.push({
                   pathname: "/admin",
                   query: { tab: "orders" },
                 })

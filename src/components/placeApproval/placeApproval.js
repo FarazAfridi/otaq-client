@@ -26,7 +26,6 @@ export default function PlaceApproval(props) {
       }
     );
     const data = await response.json();
-
   }
 
   async function removeUnApprovedPlace(id) {
@@ -44,6 +43,7 @@ export default function PlaceApproval(props) {
     );
     const data = await response.json();
     if (response.ok) {
+      toast("User logged in successfully", { hideProgressBar: true, autoClose: 2000, type: 'success' })
       router.reload(window.location.pathname)
     }
   }
