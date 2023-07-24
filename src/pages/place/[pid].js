@@ -65,6 +65,12 @@ export default function SinglePlace() {
         }
       )
       .then(function (response) {
+        if(response.status === 401) {
+          toast("Session expired, Please login again", { hideProgressBar: true, autoClose: 2000, type: 'error' })
+          localStorage.removeItem("token");
+          router.push("/login")
+          return
+        }
         setBook(response.data);
         if(response.data === "Sorry! The room is already booked") {
           toast(response.data, {

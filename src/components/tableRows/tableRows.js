@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import styles from "./tableRows.module.css";
+// import styles from "./tableRows.module.css";
 import { toast } from "react-toastify";
 
 export default function TableRows(props) {

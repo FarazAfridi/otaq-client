@@ -10,8 +10,10 @@
 }
 
 .table-item {
-  width: calc(100%/5);
-  min-width: fit-content;
+  min-height: 50px;
+  border-bottom: 1px solid #dddddd;
+  padding: 10px;
+  text-align: center;
 }
 
 .table:hover {

@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "@/styles/admin.module.css";
-import Table from "@/components/table/table";
+import Table from "@/components/table/tableComponent";
 import styles2 from "@/components/card/card.module.css";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
+import { toast } from "react-toastify";
 
 export default function Dashboard() {
   const [tab, setTab] = useState("dashboard");
@@ -37,6 +38,12 @@ export default function Dashboard() {
               },
             }
           );
+          if(response.status === 401) {
+            toast("Session expired, Please login again", { hideProgressBar: true, autoClose: 2000, type: 'error' })
+            localStorage.removeItem("token");
+            router.push("/login")
+            return
+          }
           const data = await response.json();
           setBooking(data);
         }
@@ -55,6 +62,12 @@ export default function Dashboard() {
               },
             }
           );
+          if(response.status === 401) {
+            toast("Session expired, Please login again", { hideProgressBar: true, autoClose: 2000, type: 'error' })
+            localStorage.removeItem("token");
+            router.push("/login")
+            return
+          }
           const data = await response.json();
           setUserSetting({
             name: data[0].name,
@@ -77,6 +90,12 @@ export default function Dashboard() {
               },
             }
           );
+          if(response.status === 401) {
+            toast("Session expired, Please login again", { hideProgressBar: true, autoClose: 2000, type: 'error' })
+            localStorage.removeItem("token");
+            router.push("/login")
+            return
+          }
           const data = await response.json();
           setListing(data[0].listing);
         }
@@ -109,6 +128,25 @@ export default function Dashboard() {
     }
   };
 
+  function getTotalRent(order) {
+    const room = [
+      order.place.roomOne,
+      order.place.roomTwo,
+      order.place.roomThree,
+    ].filter((room) => room.name === order.roomType);
+
+    let date1 = new Date(order.startDate);
+    date1.setMinutes(date1.getMinutes() - date1.getTimezoneOffset());
+
+    let date2 = new Date(order.lastDate);
+    date2.setMinutes(date2.getMinutes() - date2.getTimezoneOffset());
+
+    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+    const days = (date2 - date1) / millisecondsPerDay;
+
+    return room[0].price * days;
+  }
+
   return (
     <>
       <div className={styles["admin--panel--container"]}>
@@ -121,7 +159,9 @@ export default function Dashboard() {
         <div className={styles["admin--panel"]}>
           <div className={styles["admin--sidebar"]}>
             <button
-              className={tab === "dashboard" ? styles["active"] : "default-button"}
+              className={
+                tab === "dashboard" ? styles["active"] : "default-button"
+              }
               onClick={() => {
                 router.push({
                   pathname: "/user/dashboard",
@@ -131,7 +171,9 @@ export default function Dashboard() {
               Dashboard
             </button>
             <button
-              className={tab === "bookedPlaces" ? styles["active"] : "default-button"}
+              className={
+                tab === "bookedPlaces" ? styles["active"] : "default-button"
+              }
               onClick={() => {
                 router.push({
                   pathname: "/user/dashboard",
@@ -142,7 +184,9 @@ export default function Dashboard() {
               Booked Places
             </button>
             <button
-              className={tab === "listedPlaces" ? styles["active"] : "default-button"}
+              className={
+                tab === "listedPlaces" ? styles["active"] : "default-button"
+              }
               onClick={() => {
                 router.push({
                   pathname: "/user/dashboard",
@@ -153,7 +197,9 @@ export default function Dashboard() {
               Listed Places
             </button>
             <button
-              className={tab === "settings" ? styles["active"] : "default-button"}
+              className={
+                tab === "settings" ? styles["active"] : "default-button"
+              }
               onClick={() => {
                 router.push({
                   pathname: "/user/dashboard",
@@ -381,10 +427,23 @@ export default function Dashboard() {
             ) : tab === "bookedPlaces" ? (
               <div className={styles.card_main_container}>
                 <div className={styles["section-top--card"]}>
-                  <h2>Booked Places</h2>
+                  <h2>
+                    Total Amount Spent:{" "}
+                    {booking
+                      ? booking.reduce(
+                          (accumulator, currentValue) =>
+                            accumulator + getTotalRent(currentValue),
+                          0
+                        )
+                      : 0}
+                  </h2>
+                </div>
+                <div className={styles["section-top--card"]}>
+                  <h2>Total Orders: {booking ? booking.length : 0}</h2>
                 </div>
                 <div>
                   <Table
+                    getTotalRent={getTotalRent}
                     tableData={booking}
                     tableHeadings={[
                       "Id:",

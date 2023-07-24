@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import styles from "@/styles/admin.module.css";
-import Table from "@/components/table/table";
+import Table from "@/components/table/tableComponent";
 import { useRouter } from "next/router";
 import PlaceApprovalContainer from "@/components/placeApprovalContainer/placeApprovalContainer";
+import { toast } from "react-toastify";
 
 export default function Admin() {
   const router = useRouter();
@@ -29,7 +30,6 @@ export default function Admin() {
     if (!router.isReady) return;
     if (!router.query.tab || !router.query) {
       setTab("dashboard");
-      
     } else if (router.query.tab === "users") {
       console.log("users");
       setTab(router.query.tab);
@@ -40,7 +40,6 @@ export default function Admin() {
       }
 
       async function getUsers() {
-       
         if (typeof window !== "undefined") {
           const token = localStorage.getItem("token");
           const response = await fetch(
@@ -79,7 +78,6 @@ export default function Admin() {
           );
           const data = await response.json();
           setPlaces(data);
-          
         }
       }
       getPlaces();
@@ -102,7 +100,7 @@ export default function Admin() {
       }
       getUnapprovedPlaces();
     } else if (router.query.tab === "orders") {
-      setTab(router.query.tab)
+      setTab(router.query.tab);
       if (typeof window !== "undefined") {
         const token = localStorage.getItem("token");
         async function getOrders() {
@@ -137,7 +135,14 @@ export default function Admin() {
           }
         );
 
+        if(response.status === 401) {
+          toast("Session expired, Please login again", { hideProgressBar: true, autoClose: 2000, type: 'error' })
+          localStorage.removeItem("token");
+          router.push("/login")
+          return
+        }
         const data = await response.json();
+        
         setDataCount({
           usersCount: data.users,
           unapprovedPlaceCount: data.unapprovedPlaces,
@@ -147,7 +152,26 @@ export default function Admin() {
       }
       getCount();
     }
-  },[tab])
+  }, [tab]);
+
+  function getTotalRent(order) {
+    const room = [
+      order.place.roomOne,
+      order.place.roomTwo,
+      order.place.roomThree,
+    ].filter((room) => room.name === order.roomType);
+
+    let date1 = new Date(order.startDate);
+    date1.setMinutes(date1.getMinutes() - date1.getTimezoneOffset());
+
+    let date2 = new Date(order.lastDate);
+    date2.setMinutes(date2.getMinutes() - date2.getTimezoneOffset());
+
+    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+    const days = (date2 - date1) / millisecondsPerDay;
+
+    return room[0].price * days;
+  }
 
   return (
     <>
@@ -198,19 +222,23 @@ export default function Admin() {
             </button>
             <button
               className={tab === "places" ? styles["active"] : "default-button"}
-              onClick={() => router.push({
-                        pathname: "/admin",
-                        query: { tab: "places" },
-                      })}
+              onClick={() =>
+                router.push({
+                  pathname: "/admin",
+                  query: { tab: "places" },
+                })
+              }
             >
               Places
             </button>
             <button
               className={tab === "users" ? styles["active"] : "default-button"}
-              onClick={() => router.push({
-                        pathname: "/admin",
-                        query: { tab: "users" },
-                      })}
+              onClick={() =>
+                router.push({
+                  pathname: "/admin",
+                  query: { tab: "users" },
+                })
+              }
             >
               Users
             </button>
@@ -219,18 +247,36 @@ export default function Admin() {
           <div className={styles.content_container}>
             {/* ORDERS */}
             {tab === "orders" ? (
-              <Table
-                tableData={orders}
-                tableHeadings={[
-                  "Id:",
-                  "Booked by:",
-                  "Email:",
-                  "Place:",
-                  "Payment:",
-                  "Status",
-                ]}
-                type="orders"
-              />
+              <>
+                <div className={styles["section-top--card"]}>
+                  <h2>
+                    Total Revenue: {orders
+                      ? orders.reduce(
+                          (accumulator, currentValue) =>
+                            accumulator + getTotalRent(currentValue),
+                          0
+                        )
+                      : 0}
+                  </h2>
+                </div>
+                <div className={styles["section-top--card"]}>
+                  <h2>Total Orders: {orders ? orders.length : 0}</h2>
+                </div>
+
+                <Table
+                  tableData={orders}
+                  getTotalRent={getTotalRent}
+                  tableHeadings={[
+                    "Id:",
+                    "Booked by:",
+                    "Email:",
+                    "Place:",
+                    "Payment:",
+                    "Status",
+                  ]}
+                  type="orders"
+                />
+              </>
             ) : null}
             {/* UNAPPROVED */}
 
@@ -278,10 +324,12 @@ export default function Admin() {
                   </div>
                   <div
                     className={styles.dashboard_card_lower_child}
-                    onClick={() => router.push({
+                    onClick={() =>
+                      router.push({
                         pathname: "/admin",
                         query: { tab: "users" },
-                      })}
+                      })
+                    }
                   >
                     More Info
                   </div>
@@ -297,7 +345,7 @@ export default function Admin() {
                       router.push({
                         pathname: "/admin",
                         query: { tab: "places" },
-                      })
+                      });
                     }}
                   >
                     More Info
