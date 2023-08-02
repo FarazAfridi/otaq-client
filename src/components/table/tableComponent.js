@@ -9,12 +9,12 @@ export default function TableComponent(props) {
 
   const router = useRouter()
 
-  const handleOrderStatus = async (value) => {
+  const handleOrderStatus = async (value, order) => {
     if (value === "Approved") {
-      const id = props.tableRows[5]._id;
+      const id = order._id;
       if (id) {
         const token = localStorage.getItem("token");
-        const response = await fetch("https://otaq-api.onrender.com/approve/order", {
+        const response = await fetch("https://otaq-api.onrender.com/places/approve/order", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -34,7 +34,7 @@ export default function TableComponent(props) {
         console.log("could not find id");
       }
     } else if (value === "Rejected") {
-      const id = props.tableRows[5]._id;
+      const id = order._id
       const token = localStorage.getItem("token");
       const response = await fetch("https://otaq-api.onrender.com/places/reject/order", {
         method: "POST",
@@ -70,14 +70,14 @@ export default function TableComponent(props) {
           <Td className={styles['table-item']}>{user.name}</Td>
           <Td className={styles['table-item']}>{user.email}</Td>
           <Td className={styles['table-item']}>{user.role}</Td>
-        </Tr>) : props.type === 'orders' ? props.tableData.map((order, i) => <Tr key={i}>
+        </Tr>) : props.type === 'orders' ? props.tableData.map((order) => <Tr key={order._id}>
           <Td className={styles['table-item']}>{order._id}</Td>
           <Td className={styles['table-item']}>{order.user.name}</Td>
           <Td className={styles['table-item']}>{order.user.email}</Td>
           <Td className={styles['table-item']}>{order.place.name}</Td>
           <Td className={styles['table-item']}>{props.getTotalRent(order)}</Td>
           <Td className={styles['table-item']}>{<select
-              onChange={(e) => handleOrderStatus(e.target.value)}
+              onChange={(e) => handleOrderStatus(e.target.value, order)}
               disabled={router.pathname === '/user/dashboard' ? true : order.status !== "Pending"}
             >
               {["Approved", "Pending", "Rejected"].map((status, i) => (

@@ -5,7 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'otaq-api.onrender.com'
+        hostname: 'media.istockphoto.com'
       }
     ]
   }

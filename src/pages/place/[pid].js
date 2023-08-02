@@ -15,8 +15,8 @@ export default function SinglePlace() {
   const [book, setBook] = useState(null);
   const [days, setDays] = useState(1);
   const [place, setPlace] = useState(null);
-  const [rooms, setRooms] = useState(null)
-  const [room, setRoom] = useState()
+  const [rooms, setRooms] = useState(null);
+  const [room, setRoom] = useState();
 
   const startDate = useRef();
   const lastDate = useRef();
@@ -35,9 +35,9 @@ export default function SinglePlace() {
     }
   }
 
-  function getRoomType (value) {
-    const filteredRoom = rooms.filter(room => room.name === value)
-    setRoom(filteredRoom)
+  function getRoomType(value) {
+    const filteredRoom = rooms.filter((room) => room.name === value);
+    setRoom(filteredRoom);
   }
 
   useEffect(() => {
@@ -48,52 +48,64 @@ export default function SinglePlace() {
   const { pid } = router.query;
 
   const bookPlace = async () => {
-    axios
-      .post(
-        "https://otaq-api.onrender.com/places/book",
-        {
-          placeId: place._id,
-          startDate: startDate.current.value,
-          lastDate: lastDate.current.value,
-          room: room[0].name,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "bearer " + token,
-          },
-        }
-      )
-      .then(function (response) {
-        if(response.status === 401) {
-          toast("Session expired, Please login again", { hideProgressBar: true, autoClose: 2000, type: 'error' })
-          localStorage.removeItem("token");
-          router.push("/login")
-          return
-        }
-        setBook(response.data);
-        if(response.data === "Sorry! The room is already booked") {
-          toast(response.data, {
-            hideProgressBar: true,
-            autoClose: 2000,
-            type: "error",
-          });
-        } else{
-          toast(response.data, {
-            hideProgressBar: true,
-            autoClose: 2000,
-            type: "success",
-          });
-        }
-        
-      })
-      .catch(function (error) {
-        console.log(error);
-        localStorage.removeItem("token");
-        router.push("/login");
+    if (!startDate.current.value || !lastDate.current.value) {
+      toast("No field should be empty", {
+        hideProgressBar: true,
+        autoClose: 2000,
+        type: "error",
       });
+      return;
+    } else {
+      axios
+        .post(
+          "https://otaq-api.onrender.com/places/book",
+          {
+            placeId: place._id,
+            startDate: startDate.current.value,
+            lastDate: lastDate.current.value,
+            room: room[0].name,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "bearer " + token,
+            },
+          }
+        )
+        .then(function (response) {
+          if (response.status === 401) {
+            toast("Session expired, Please login again", {
+              hideProgressBar: true,
+              autoClose: 2000,
+              type: "error",
+            });
+            localStorage.removeItem("token");
+            router.push("/login");
+            return;
+          }
+          setBook(response.data);
+          if (response.data === "Sorry! The room is already booked") {
+            toast(response.data, {
+              hideProgressBar: true,
+              autoClose: 2000,
+              type: "error",
+            });
+          } else {
+            toast(response.data, {
+              hideProgressBar: true,
+              autoClose: 2000,
+              type: "success",
+            });
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+          // localStorage.removeItem("token");
+          // router.push("/login");
+        });
+    }
   };
-  console.log(process.env.BASEURL)
+  console.log(process.env.BASEURL);
   useEffect(() => {
     async function getPlace() {
       if (router.isReady) {
@@ -102,8 +114,12 @@ export default function SinglePlace() {
         );
         const data = await resp.json();
         setPlace(data);
-        setRooms([data.roomOne, data.roomTwo, data.roomThree])
-        setRoom([data.roomOne, data.roomTwo, data.roomThree].filter(room => room.name === 'Deluxe'))
+        setRooms([data.roomOne, data.roomTwo, data.roomThree]);
+        setRoom(
+          [data.roomOne, data.roomTwo, data.roomThree].filter(
+            (room) => room.name === "Deluxe"
+          )
+        );
       }
     }
     getPlace();
@@ -251,12 +267,14 @@ export default function SinglePlace() {
                         name="guests"
                         onChange={(e) => getRoomType(e.target.value)}
                       >
-                        <option defaultChecked value="Deluxe">Deluxe</option>
+                        <option defaultChecked value="Deluxe">
+                          Deluxe
+                        </option>
                         <option value="Executive">Executive</option>
                         <option value="Super Deluxe">Super Deluxe</option>
                       </select>
                     </div>
-                    <button disabled={book ? true : false}  onClick={bookPlace}>
+                    <button disabled={book ? true : false} onClick={bookPlace}>
                       {book ? "BOOKED" : "Reserve"}
                     </button>
                     <span>You won&apos;t be charged yet</span>
