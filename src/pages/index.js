@@ -2,9 +2,7 @@ import Card from "@/components/card/card";
 import Footer from "@/components/footer/footer";
 import Hero from "@/components/hero/hero";
 import Layout from "@/components/layout/layout";
-import Navbar from "../components/navbar/navbar";
 import Testimonials from "./../components/testimonials/testimonials";
-import Search from "@/components/search/search";
 import { useEffect, useState } from "react";
 import TopDestinations from "@/components/top-destinations/topDestinations";
 
@@ -24,19 +22,20 @@ export default function Home() {
   }, []);
 
   const handleSearch = async (values) => {
+    if(!values.query && !values.city) return;
+    if(values.city) { 
     const url =
       "https://otaq-api.onrender.com/places/get/approved?city=" +
       values.city +
-      "&roomtype=" +
-      values.roomType + "&persons=" +
-      values.persons
+      "&searchquery=" +
+      values.query
     const resp = await fetch(url);
     if (resp.ok) {
       const data = await resp.json();
       setPlaces(data);
-      console.log(data)
       document.getElementById("places").scrollIntoView({ behavior: "smooth" });
     }
+  }
   };
 
   return (
