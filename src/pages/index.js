@@ -8,6 +8,71 @@ import TopDestinations from "@/components/top-destinations/topDestinations";
 
 export default function Home() {
   const [places, setPlaces] = useState([]);
+  const [favourites, setFavourites] = useState([]);
+
+  async function addToFavourites (placeId) {
+
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        "https://otaq-api.onrender.com/places/add/favourites",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            placeId,
+          }),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+    }
+
+  }
+
+  async function removeFromFavourites (placeId) {
+
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        "https://otaq-api.onrender.com/places/remove/favourites",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            placeId,
+          }),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+    }
+
+  }
+
+  const handleFavourites = async (id) => {
+    if (!id) return;
+    if (favourites.length > 0) {
+      const exist = favourites.find(fav => fav === id);
+      if (exist) {
+        const removeItem = favourites.filter((fav) => fav !== id);
+        removeFromFavourites(id)
+        setFavourites(removeItem);
+      } else {
+        addToFavourites(id)
+        setFavourites((prev) => [...prev, id]);     
+      }
+    } else {
+      addToFavourites(id)
+      setFavourites([id]);
+    }
+  };
 
   useEffect(() => {
     async function getPlaces() {
@@ -18,24 +83,46 @@ export default function Home() {
 
       setPlaces(data);
     }
+
+    const getFavourites = async () => {
+      if (typeof window !== "undefined") {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          "https://otaq-api.onrender.com/places/get/favourites",
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setFavourites(data);
+        console.log(data);
+      }
+    };
+
+    getFavourites();
     getPlaces();
   }, []);
 
   const handleSearch = async (values) => {
-    if(!values.query && !values.city) return;
-    if(values.city) { 
-    const url =
-      "https://otaq-api.onrender.com/places/get/approved?city=" +
-      values.city +
-      "&searchquery=" +
-      values.query
-    const resp = await fetch(url);
-    if (resp.ok) {
-      const data = await resp.json();
-      setPlaces(data);
-      document.getElementById("places").scrollIntoView({ behavior: "smooth" });
+    if (!values.query && !values.city) return;
+    if (values.city) {
+      const url =
+        "https://otaq-api.onrender.com/places/get/approved?city=" +
+        values.city +
+        "&searchquery=" +
+        values.query;
+      const resp = await fetch(url);
+      if (resp.ok) {
+        const data = await resp.json();
+        setPlaces(data);
+        document
+          .getElementById("places")
+          .scrollIntoView({ behavior: "smooth" });
+      }
     }
-  }
   };
 
   return (
@@ -52,7 +139,11 @@ export default function Home() {
         </Layout>
       </div>
       <Layout>
-        <Card places={places} />
+        <Card
+          handleFavourites={handleFavourites}
+          favourites={favourites}
+          places={places}
+        />
       </Layout>
       <div className="full-width">
         <Layout>

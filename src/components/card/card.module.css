@@ -8,6 +8,7 @@
   border-radius: 10px;
   overflow: hidden;
   min-height: 400px;
+  position: relative;
 }
 
 .hidden {
@@ -123,4 +124,17 @@
 
 .card--info > p:hover {
   background-color: #dddddd;
+}
+
+.parent {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card__icon {
+  position: absolute;
+  z-index: 1000;
+  margin-right: 10px;
+  margin-top: 10px;
 }

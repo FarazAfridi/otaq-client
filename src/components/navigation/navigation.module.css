@@ -7,7 +7,7 @@
   position: fixed;
   top: 0;
   background-color: white;
-  z-index: 10;
+  z-index: 10000;
 }
 
 .header__search_container {
