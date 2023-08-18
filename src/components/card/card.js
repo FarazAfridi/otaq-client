@@ -9,8 +9,6 @@ const Card = (props) => {
   const router = useRouter();
   const places = props.places;
 
-  // addFavourites('64a453f9736fa4840c7ca31b')
-
   return (
     <div className={styles.cards} id="places">
       <div

@@ -12,6 +12,8 @@ export default function Dashboard() {
   const [tab, setTab] = useState("dashboard");
   const [booking, setBooking] = useState([]);
   const [listing, setListing] = useState([]);
+  const [favourites, setFavourites] = useState([]);
+  console.log(favourites)
 
   const router = useRouter();
 
@@ -101,6 +103,30 @@ export default function Dashboard() {
         }
         getListings();
       }
+    }  else if (router.query.tab === "favourites") {
+      setTab(router.query.tab);
+      if (typeof window !== "undefined") {
+        async function getFavourites() {
+          const token = localStorage.getItem("token");
+          const response = await fetch(
+            "https://otaq-api.onrender.com/places/get/favourites?complete=true",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if(response.status === 401) {
+            toast("Session expired, Please login again", { hideProgressBar: true, autoClose: 2000, type: 'error' })
+            localStorage.removeItem("token");
+            router.push("/login")
+            return
+          }
+          const data = await response.json();
+          setFavourites(data);
+        }
+        getFavourites();
+      }
     }
   }, [router.isReady, router.asPath]);
 
@@ -182,6 +208,19 @@ export default function Dashboard() {
               }}
             >
               Booked Places
+            </button>
+            <button
+              className={
+                tab === "favourites" ? styles["active"] : "default-button"
+              }
+              onClick={() => {
+                router.push({
+                  pathname: "/user/dashboard",
+                  query: { tab: "favourites" },
+                });
+              }}
+            >
+              Favourites
             </button>
             <button
               className={
@@ -358,7 +397,112 @@ export default function Dashboard() {
                   <h1>No Places Listed</h1>
                 )}
               </div>
-            ) : tab === "dashboard" ? (
+            ) : null } 
+
+            {tab === "favourites" ? (
+              <div className={styles.card_main_container}>
+                <div className={styles["section-top--card"]}>
+                  <h2>Listed Places</h2>
+                </div>
+                {favourites.length > 0 ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    {favourites.map((l) => {
+                      return (
+                        <div key={l._id.toString()} className={styles2.card}>
+                          <Carousel
+                            showStatus={false}
+                            interval={2000}
+                            infiniteLoop={false}
+                            autoPlay={true}
+                            transitionTime={500}
+                            showThumbs={false}
+                            showIndicators={false}
+                          >
+                            <div className={styles2.card__image_container}>
+                              <Image
+                                onClick={() => {
+                                  router.push(`/place/${l._id.toString()}`);
+                                }}
+                                src={
+                                  "data:image/jpeg;base64," +
+                                  l.roomThree.images[0].data.toString("base64")
+                                }
+                                width={300}
+                                height={300}
+                                alt=""
+                              />
+                            </div>
+                            <div className={styles2.card__image_container}>
+                              <Image
+                                onClick={() => {
+                                  router.push(`/place/${l._id.toString()}`);
+                                }}
+                                src={
+                                  "data:image/jpeg;base64," +
+                                  l.roomOne.images[1].data.toString("base64")
+                                }
+                                width={300}
+                                height={300}
+                                alt=""
+                              />
+                            </div>
+                            <div className={styles2.card__image_container}>
+                              <Image
+                                onClick={() => {
+                                  router.push(`/place/${l._id.toString()}`);
+                                }}
+                                src={
+                                  "data:image/jpeg;base64," +
+                                  l.roomTwo.images[2].data.toString("base64")
+                                }
+                                width={300}
+                                height={300}
+                                alt=""
+                              />
+                            </div>
+                          </Carousel>
+                          <div
+                            className={styles2["card--details"]}
+                            onClick={() => {
+                              router.push(`/place/${l._id.toString()}`);
+                            }}
+                          >
+                            <div className={styles2.col}>
+                              <p className={styles2.card__name}>{l.name}</p>
+                              <div className={styles2.card__price_container}>
+                                <span className={styles2.card__price}>
+                                  Rs{l.price}
+                                </span>
+                                <span className={styles2.card__night}>
+                                  /night
+                                </span>
+                              </div>
+                            </div>
+                            <div className="divider"></div>
+                            <div className={styles2["card--info"]}>
+                              <p className={styles2.card__distance}>
+                                3000m elevation
+                              </p>
+                              <p className={styles2.card__date}>{l.roomType}</p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <h1>No Favourite Places Found</h1>
+                )}
+              </div>
+            ) : null } 
+
+            { tab === "dashboard" ? (
               <div className={styles.dashboard_cards}>
                 <div className={styles.dashboard_card}>
                   <div className={styles.dashboard_card_upper_child}>
@@ -424,7 +568,8 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
-            ) : tab === "bookedPlaces" ? (
+            ) : null} 
+            { tab === "bookedPlaces" ? (
               <div className={styles.card_main_container}>
                 <div className={styles["section-top--card"]}>
                   <h2>
