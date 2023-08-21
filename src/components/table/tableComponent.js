@@ -14,7 +14,7 @@ export default function TableComponent(props) {
       const id = order._id;
       if (id) {
         const token = localStorage.getItem("token");
-        const response = await fetch("https://otaq-api.onrender.com/places/approve/order", {
+        const response = await fetch("https://otaq-api.azurewebsites.net/places/approve/order", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export default function TableComponent(props) {
     } else if (value === "Rejected") {
       const id = order._id
       const token = localStorage.getItem("token");
-      const response = await fetch("https://otaq-api.onrender.com/places/reject/order", {
+      const response = await fetch("https://otaq-api.azurewebsites.net/places/reject/order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

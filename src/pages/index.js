@@ -15,7 +15,7 @@ export default function Home() {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "https://otaq-api.onrender.com/places/add/favourites",
+        "https://otaq-api.azurewebsites.net/places/add/favourites",
         {
           method: "POST",
           headers: {
@@ -38,7 +38,7 @@ export default function Home() {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "https://otaq-api.onrender.com/places/remove/favourites",
+        "https://otaq-api.azurewebsites.net/places/remove/favourites",
         {
           method: "POST",
           headers: {
@@ -77,7 +77,7 @@ export default function Home() {
   useEffect(() => {
     async function getPlaces() {
       const resp = await fetch(
-        "https://otaq-api.onrender.com/places/get/approved"
+        "https://otaq-api.azurewebsites.net/places/get/approved"
       );
       const data = await resp.json();
 
@@ -88,7 +88,7 @@ export default function Home() {
       if (typeof window !== "undefined") {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          "https://otaq-api.onrender.com/places/get/favourites",
+          "https://otaq-api.azurewebsites.net/places/get/favourites",
           {
             headers: {
               "Content-Type": "application/json",
@@ -110,7 +110,7 @@ export default function Home() {
     if (!values.query && !values.city) return;
     if (values.city) {
       const url =
-        "https://otaq-api.onrender.com/places/get/approved?city=" +
+        "https://otaq-api.azurewebsites.net/places/get/approved?city=" +
         values.city +
         "&searchquery=" +
         values.query;

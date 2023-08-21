@@ -43,7 +43,7 @@ export default function Admin() {
         if (typeof window !== "undefined") {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "https://otaq-api.onrender.com/auth/users",
+            "https://otaq-api.azurewebsites.net/auth/users",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -69,7 +69,7 @@ export default function Admin() {
         if (typeof window !== "undefined") {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "https://otaq-api.onrender.com/places/get/approved",
+            "https://otaq-api.azurewebsites.net/places/get/approved",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -87,7 +87,7 @@ export default function Admin() {
         if (typeof window !== "undefined") {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "https://otaq-api.onrender.com/places/get/unapproved",
+            "https://otaq-api.azurewebsites.net/places/get/unapproved",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -105,7 +105,7 @@ export default function Admin() {
         const token = localStorage.getItem("token");
         async function getOrders() {
           const response = await fetch(
-            "https://otaq-api.onrender.com/places/book",
+            "https://otaq-api.azurewebsites.net/places/book",
             {
               headers: {
                 "Content-Type": "application/json",
@@ -126,7 +126,7 @@ export default function Admin() {
       const token = localStorage.getItem("token");
       async function getCount() {
         const response = await fetch(
-          "https://otaq-api.onrender.com/places/count",
+          "https://otaq-api.azurewebsites.net/places/count",
           {
             headers: {
               "Content-Type": "application/json",

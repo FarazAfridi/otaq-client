@@ -80,7 +80,7 @@ export default function Vendor() {
 
     try {
       const response = await fetch(
-        "https://otaq-api.onrender.com/places/add",
+        "https://otaq-api.azurewebsites.net/places/add",
         {
           method: "POST",
           headers: {

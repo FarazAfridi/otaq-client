@@ -24,7 +24,7 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault()
 
-    const response = await fetch("https://otaq-api.onrender.com/auth/login", {
+    const response = await fetch("https://otaq-api.azurewebsites.net/auth/login", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -36,8 +36,8 @@ export default function Login() {
       const data = await response.json()
       localStorage.setItem('token', data.token)
       localStorage.setItem('role', data.userRole)
-      router.push('/')
       toast("User logged in successfully", { hideProgressBar: true, autoClose: 2000, type: 'success' })
+      router.push('/')
     }
 
   }

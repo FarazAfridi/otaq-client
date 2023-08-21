@@ -80,7 +80,7 @@ export default function Host() {
 
     try {
       const response = await fetch(
-        "https://otaq-api.onrender.com/places/add/approved",
+        "https://otaq-api.azurewebsites.net/places/add/approved",
         {
           method: "POST",
           headers: {

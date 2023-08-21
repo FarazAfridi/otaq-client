@@ -33,7 +33,7 @@ export default function Dashboard() {
         async function getUserBookings() {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "https://otaq-api.onrender.com/places/get/booking",
+            "https://otaq-api.azurewebsites.net/places/get/booking",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -57,7 +57,7 @@ export default function Dashboard() {
         async function getUserData() {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "https://otaq-api.onrender.com/auth/user",
+            "https://otaq-api.azurewebsites.net/auth/user",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -85,7 +85,7 @@ export default function Dashboard() {
         async function getListings() {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "https://otaq-api.onrender.com/places/get/listing",
+            "https://otaq-api.azurewebsites.net/places/get/listing",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -109,7 +109,7 @@ export default function Dashboard() {
         async function getFavourites() {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "https://otaq-api.onrender.com/places/get/favourites?complete=true",
+            "https://otaq-api.azurewebsites.net/places/get/favourites?complete=true",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -134,7 +134,7 @@ export default function Dashboard() {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "https://otaq-api.onrender.com/auth/userupdate",
+        "https://otaq-api.azurewebsites.net/auth/userupdate",
         {
           body: JSON.stringify({
             name: userSetting.name,

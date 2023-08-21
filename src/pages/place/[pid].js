@@ -58,7 +58,7 @@ export default function SinglePlace() {
     } else {
       axios
         .post(
-          "https://otaq-api.onrender.com/places/book",
+          "https://otaq-api.azurewebsites.net/places/book",
           {
             placeId: place._id,
             startDate: startDate.current.value,
@@ -110,7 +110,7 @@ export default function SinglePlace() {
     async function getPlace() {
       if (router.isReady) {
         const resp = await fetch(
-          `https://otaq-api.onrender.com/places/get/approved/${pid}`
+          `https://otaq-api.azurewebsites.net/places/get/approved/${pid}`
         );
         const data = await resp.json();
         setPlace(data);
