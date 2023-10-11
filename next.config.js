@@ -4,9 +4,9 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'media.istockphoto.com'
-      }
+        protocol: "https",
+        hostname: "**",
+      },
     ]
   }
 }

@@ -17,7 +17,7 @@ export default function SinglePlace() {
   useEffect(() => {
     if (!router.isReady) return;
     const getPlaces = async (values) => {
-      const url = "https://otaq-api.azurewebsites.net/places/get/approved?city=" + cid;
+      const url = "http://localhost:4000/places/get/approved?city=" + cid;
       const resp = await fetch(url);
       if (resp.ok) {
         const data = await resp.json();

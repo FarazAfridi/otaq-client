@@ -17,7 +17,6 @@ export default function SinglePlace() {
   const [place, setPlace] = useState(null);
   const [rooms, setRooms] = useState(null);
   const [room, setRoom] = useState();
-
   const startDate = useRef();
   const lastDate = useRef();
 
@@ -58,7 +57,7 @@ export default function SinglePlace() {
     } else {
       axios
         .post(
-          "https://otaq-api.azurewebsites.net/places/book",
+          "http://localhost:4000/places/book",
           {
             placeId: place._id,
             startDate: startDate.current.value,
@@ -105,14 +104,15 @@ export default function SinglePlace() {
         });
     }
   };
-  console.log(process.env.BASEURL);
+
   useEffect(() => {
     async function getPlace() {
       if (router.isReady) {
         const resp = await fetch(
-          `https://otaq-api.azurewebsites.net/places/get/approved/${pid}`
+          `http://localhost:4000/places/get/approved/${pid}`
         );
         const data = await resp.json();
+        console.log(data)
         setPlace(data);
         setRooms([data.roomOne, data.roomTwo, data.roomThree]);
         setRoom(
@@ -120,6 +120,7 @@ export default function SinglePlace() {
             (room) => room.name === "Deluxe"
           )
         );
+       
       }
     }
     getPlace();
@@ -187,53 +188,30 @@ export default function SinglePlace() {
                   </div>
                   <div className={styles["apartment--gallery"]}>
                     <div className={styles["gallery--two-images"]}>
-                      <Image
+
+                      {room[0].images.map((r, i) => i !== 2 ? <Image
+                      key={i}
                         src={
                           "data:image/jpeg;base64," +
-                          room[0].images[1].data.toString("base64")
+                          room[0].images[i].data.toString("base64")
                         }
                         alt=""
                         width={300}
                         height={300}
-                      />
-                      <Image
-                        src={
-                          "data:image/jpeg;base64," +
-                          room[0].images[2].data.toString("base64")
-                        }
-                        alt=""
-                        width={300}
-                        height={300}
-                      />
+                      /> : null) }
                     </div>
                     <div className={styles["gallery--three-images"]}>
-                      <Image
+                    {room[0].images.map((r, i) => i >= 2 ? <Image
+                      key={i}
                         src={
                           "data:image/jpeg;base64," +
-                          room[0].images[0].data.toString("base64")
+                          room[0].images[i].data.toString("base64")
                         }
                         alt=""
                         width={300}
                         height={300}
-                      />
-                      <Image
-                        src={
-                          "data:image/jpeg;base64," +
-                          room[0].images[1].data.toString("base64")
-                        }
-                        alt=""
-                        width={300}
-                        height={300}
-                      />
-                      <Image
-                        src={
-                          "data:image/jpeg;base64," +
-                          room[0].images[2].data.toString("base64")
-                        }
-                        alt=""
-                        width={300}
-                        height={300}
-                      />
+                      /> : null) }
+                      
                     </div>
                   </div>
                 </div>

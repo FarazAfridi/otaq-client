@@ -5,6 +5,7 @@ import Layout from "@/components/layout/layout";
 import Testimonials from "./../components/testimonials/testimonials";
 import { useEffect, useState } from "react";
 import TopDestinations from "@/components/top-destinations/topDestinations";
+import NewCard from "@/components/card/newCard";
 
 export default function Home() {
   const [places, setPlaces] = useState([]);
@@ -15,7 +16,7 @@ export default function Home() {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "https://otaq-api.azurewebsites.net/places/add/favourites",
+        "http://localhost:4000/places/add/favourites",
         {
           method: "POST",
           headers: {
@@ -38,7 +39,7 @@ export default function Home() {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "https://otaq-api.azurewebsites.net/places/remove/favourites",
+        "http://localhost:4000/places/remove/favourites",
         {
           method: "POST",
           headers: {
@@ -77,7 +78,7 @@ export default function Home() {
   useEffect(() => {
     async function getPlaces() {
       const resp = await fetch(
-        "https://otaq-api.azurewebsites.net/places/get/approved"
+        "http://localhost:4000/places/get/approved"
       );
       const data = await resp.json();
 
@@ -88,7 +89,7 @@ export default function Home() {
       if (typeof window !== "undefined") {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          "https://otaq-api.azurewebsites.net/places/get/favourites",
+          "http://localhost:4000/places/get/favourites",
           {
             headers: {
               "Content-Type": "application/json",
@@ -110,7 +111,7 @@ export default function Home() {
     if (!values.query && !values.city) return;
     if (values.city) {
       const url =
-        "https://otaq-api.azurewebsites.net/places/get/approved?city=" +
+        "http://localhost:4000/places/get/approved?city=" +
         values.city +
         "&searchquery=" +
         values.query;
@@ -139,7 +140,12 @@ export default function Home() {
         </Layout>
       </div>
       <Layout>
-        <Card
+        {/* <Card
+          handleFavourites={handleFavourites}
+          favourites={favourites}
+          places={places}
+        /> */}
+        <NewCard 
           handleFavourites={handleFavourites}
           favourites={favourites}
           places={places}

@@ -13,7 +13,7 @@ export default function PlaceApproval(props) {
   async function approvePlace(id) {
     const token = localStorage.getItem("token");
     const response = await fetch(
-      "https://otaq-api.azurewebsites.net/places/add/approved",
+      "http://localhost:4000/places/add/approved",
       {
         method: "POST",
         headers: {
@@ -31,7 +31,7 @@ export default function PlaceApproval(props) {
   async function removeUnApprovedPlace(id) {
     const token = localStorage.getItem("token");
     const response = await fetch(
-      "https://otaq-api.azurewebsites.net/places/remove/unapproved",
+      "http://localhost:4000/places/remove/unapproved",
       {
         method: "POST",
         headers: {
@@ -51,7 +51,7 @@ export default function PlaceApproval(props) {
   async function removeApprovedPlace(id) {
     const token = localStorage.getItem("token");
     const response = await fetch(
-      "https://otaq-api.azurewebsites.net/places/remove/approved",
+      "http://localhost:4000/places/remove/approved",
       {
         method: "POST",
         headers: {

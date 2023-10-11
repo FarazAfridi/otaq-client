@@ -101,7 +101,7 @@ const Navigation = () => {
                     >
                       Dashboard
                     </p>
-                    {role === "Vendor" || "Admin" ? (
+                    {role !== "User" ? (
                       <p
                         onClick={() => router.push(role === "Vendor" ? "/vendor" : "/admin/host")}
                         className={styles.dropdown__child}

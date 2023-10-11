@@ -33,7 +33,7 @@ export default function Dashboard() {
         async function getUserBookings() {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "https://otaq-api.azurewebsites.net/places/get/booking",
+            "http://localhost:4000/places/get/booking",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -57,7 +57,7 @@ export default function Dashboard() {
         async function getUserData() {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "https://otaq-api.azurewebsites.net/auth/user",
+            "http://localhost:4000/auth/user",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -85,7 +85,7 @@ export default function Dashboard() {
         async function getListings() {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "https://otaq-api.azurewebsites.net/places/get/listing",
+            "http://localhost:4000/places/get/listing",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -109,7 +109,7 @@ export default function Dashboard() {
         async function getFavourites() {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "https://otaq-api.azurewebsites.net/places/get/favourites?complete=true",
+            "http://localhost:4000/places/get/favourites?complete=true",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -134,7 +134,7 @@ export default function Dashboard() {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "https://otaq-api.azurewebsites.net/auth/userupdate",
+        "http://localhost:4000/auth/userupdate",
         {
           body: JSON.stringify({
             name: userSetting.name,
@@ -342,7 +342,7 @@ export default function Dashboard() {
                                 }}
                                 src={
                                   "data:image/jpeg;base64," +
-                                  l.roomOne.images[1].data.toString("base64")
+                                  l.roomOne.images[0].data.toString("base64")
                                 }
                                 width={300}
                                 height={300}
@@ -356,7 +356,7 @@ export default function Dashboard() {
                                 }}
                                 src={
                                   "data:image/jpeg;base64," +
-                                  l.roomTwo.images[2].data.toString("base64")
+                                  l.roomTwo.images[0].data.toString("base64")
                                 }
                                 width={300}
                                 height={300}
@@ -445,7 +445,7 @@ export default function Dashboard() {
                                 }}
                                 src={
                                   "data:image/jpeg;base64," +
-                                  l.roomOne.images[1].data.toString("base64")
+                                  l.roomOne.images[0].data.toString("base64")
                                 }
                                 width={300}
                                 height={300}
@@ -459,7 +459,7 @@ export default function Dashboard() {
                                 }}
                                 src={
                                   "data:image/jpeg;base64," +
-                                  l.roomTwo.images[2].data.toString("base64")
+                                  l.roomTwo.images[0].data.toString("base64")
                                 }
                                 width={300}
                                 height={300}
@@ -477,7 +477,7 @@ export default function Dashboard() {
                               <p className={styles2.card__name}>{l.name}</p>
                               <div className={styles2.card__price_container}>
                                 <span className={styles2.card__price}>
-                                  Rs{l.price}
+                                  Rs{l.roomOne.price}
                                 </span>
                                 <span className={styles2.card__night}>
                                   /night
@@ -487,7 +487,10 @@ export default function Dashboard() {
                             <div className="divider"></div>
                             <div className={styles2["card--info"]}>
                               <p className={styles2.card__distance}>
-                                3000m elevation
+                               {l.description}
+                              </p>
+                              <p className={styles2.card__distance}>
+                               {l.city}
                               </p>
                               <p className={styles2.card__date}>{l.roomType}</p>
                             </div>
