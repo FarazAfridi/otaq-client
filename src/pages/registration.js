@@ -26,7 +26,7 @@ export default function Registration () {
   async function handleSubmit(e) {
     e.preventDefault()
 
-    const response = await fetch("http://localhost:4000/auth/signup", {
+    const response = await fetch("https://otaq-api.onrender.com/auth/signup", {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

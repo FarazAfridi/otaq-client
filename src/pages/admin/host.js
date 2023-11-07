@@ -80,7 +80,7 @@ export default function Host() {
 
     try {
       const response = await fetch(
-        "http://localhost:4000/places/add/approved",
+        "https://otaq-api.onrender.com/places/add",
         {
           method: "POST",
           headers: {
@@ -96,10 +96,10 @@ export default function Host() {
         autoClose: 2000,
         type: "success",
       });
-      router.push({
-        pathname: '/admin',
-        query: { tab: 'places' },
-    })
+    //   router.push({
+    //     pathname: '/admin',
+    //     query: { tab: 'places' },
+    // })
     } catch (error) {
       toast("Error", {
         hideProgressBar: true,

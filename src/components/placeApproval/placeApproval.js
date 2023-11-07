@@ -13,7 +13,7 @@ export default function PlaceApproval(props) {
   async function approvePlace(id) {
     const token = localStorage.getItem("token");
     const response = await fetch(
-      "http://localhost:4000/places/add/approved",
+      "https://otaq-api.onrender.com/places/add/approved",
       {
         method: "POST",
         headers: {
@@ -31,7 +31,7 @@ export default function PlaceApproval(props) {
   async function removeUnApprovedPlace(id) {
     const token = localStorage.getItem("token");
     const response = await fetch(
-      "http://localhost:4000/places/remove/unapproved",
+      "https://otaq-api.onrender.com/places/remove/unapproved",
       {
         method: "POST",
         headers: {
@@ -51,7 +51,7 @@ export default function PlaceApproval(props) {
   async function removeApprovedPlace(id) {
     const token = localStorage.getItem("token");
     const response = await fetch(
-      "http://localhost:4000/places/remove/approved",
+      "https://otaq-api.onrender.com/places/remove/approved",
       {
         method: "POST",
         headers: {
@@ -71,39 +71,16 @@ export default function PlaceApproval(props) {
    
     <div className={styles["unapproved-place"]}>
       <div>
-        <Carousel
-          showStatus={false}
-          interval={2000}
-          infiniteLoop={true}
-          autoPlay={true}
-          transitionTime={500}
-          showThumbs={false}
-        >
+ 
           <div className={styles.card__image_container}>
             <Image
-              src={'data:image/jpeg;base64,' + props.images[0].data.toString('base64')}
+              src={props.images[0].data && props.images[0].data}
               width={300}
               height={300}
               alt=""
             />
           </div>
-          <div className={styles.card__image_container}>
-            <Image
-              src={'data:image/jpeg;base64,' + props.images[1].data.toString('base64')}
-              width={300}
-              height={300}
-              alt=""
-            />
-          </div>
-          <div className={styles.card__image_container}>
-            <Image
-              src={'data:image/jpeg;base64,' + props.images[2].data.toString('base64')}
-              width={300}
-              height={300}
-              alt=""
-            />
-          </div>
-        </Carousel>
+          
       </div>
       <div className={styles["place--text"]}>
         <div className={styles.card__name}>

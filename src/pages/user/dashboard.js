@@ -13,7 +13,6 @@ export default function Dashboard() {
   const [booking, setBooking] = useState([]);
   const [listing, setListing] = useState([]);
   const [favourites, setFavourites] = useState([]);
-  console.log(favourites)
 
   const router = useRouter();
 
@@ -33,9 +32,10 @@ export default function Dashboard() {
         async function getUserBookings() {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "http://localhost:4000/places/get/booking",
+            "https://otaq-api.onrender.com/places/get/booking",
             {
               headers: {
+                "Content-Type": "application/json", 
                 Authorization: `Bearer ${token}`,
               },
             }
@@ -57,7 +57,7 @@ export default function Dashboard() {
         async function getUserData() {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "http://localhost:4000/auth/user",
+            "https://otaq-api.onrender.com/auth/user",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -85,7 +85,7 @@ export default function Dashboard() {
         async function getListings() {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "http://localhost:4000/places/get/listing",
+            "https://otaq-api.onrender.com/places/get/listing",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -109,7 +109,7 @@ export default function Dashboard() {
         async function getFavourites() {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "http://localhost:4000/places/get/favourites?complete=true",
+            "https://otaq-api.onrender.com/places/get/favourites?complete=true",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -134,7 +134,7 @@ export default function Dashboard() {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:4000/auth/userupdate",
+        "https://otaq-api.onrender.com/auth/userupdate",
         {
           body: JSON.stringify({
             name: userSetting.name,
@@ -312,58 +312,22 @@ export default function Dashboard() {
                     {listing.map((l) => {
                       return (
                         <div key={l._id.toString()} className={styles2.card}>
-                          <Carousel
-                            showStatus={false}
-                            interval={2000}
-                            infiniteLoop={false}
-                            autoPlay={true}
-                            transitionTime={500}
-                            showThumbs={false}
-                            showIndicators={false}
-                          >
                             <div className={styles2.card__image_container}>
                               <Image
                                 onClick={() => {
                                   router.push(`/place/${l._id.toString()}`);
                                 }}
-                                src={
-                                  "data:image/jpeg;base64," +
-                                  l.roomThree.images[0].data.toString("base64")
+                                src={ 
+                                  l.roomOne.images[0].data
                                 }
                                 width={300}
                                 height={300}
                                 alt=""
                               />
                             </div>
-                            <div className={styles2.card__image_container}>
-                              <Image
-                                onClick={() => {
-                                  router.push(`/place/${l._id.toString()}`);
-                                }}
-                                src={
-                                  "data:image/jpeg;base64," +
-                                  l.roomOne.images[0].data.toString("base64")
-                                }
-                                width={300}
-                                height={300}
-                                alt=""
-                              />
-                            </div>
-                            <div className={styles2.card__image_container}>
-                              <Image
-                                onClick={() => {
-                                  router.push(`/place/${l._id.toString()}`);
-                                }}
-                                src={
-                                  "data:image/jpeg;base64," +
-                                  l.roomTwo.images[0].data.toString("base64")
-                                }
-                                width={300}
-                                height={300}
-                                alt=""
-                              />
-                            </div>
-                          </Carousel>
+                           
+                            
+                
                           <div
                             className={styles2["card--details"]}
                             onClick={() => {
@@ -415,58 +379,21 @@ export default function Dashboard() {
                     {favourites.map((l) => {
                       return (
                         <div key={l._id.toString()} className={styles2.card}>
-                          <Carousel
-                            showStatus={false}
-                            interval={2000}
-                            infiniteLoop={false}
-                            autoPlay={true}
-                            transitionTime={500}
-                            showThumbs={false}
-                            showIndicators={false}
-                          >
+                    
                             <div className={styles2.card__image_container}>
                               <Image
                                 onClick={() => {
                                   router.push(`/place/${l._id.toString()}`);
                                 }}
                                 src={
-                                  "data:image/jpeg;base64," +
-                                  l.roomThree.images[0].data.toString("base64")
+                                  l.roomThree.images[0].data
                                 }
                                 width={300}
                                 height={300}
                                 alt=""
                               />
                             </div>
-                            <div className={styles2.card__image_container}>
-                              <Image
-                                onClick={() => {
-                                  router.push(`/place/${l._id.toString()}`);
-                                }}
-                                src={
-                                  "data:image/jpeg;base64," +
-                                  l.roomOne.images[0].data.toString("base64")
-                                }
-                                width={300}
-                                height={300}
-                                alt=""
-                              />
-                            </div>
-                            <div className={styles2.card__image_container}>
-                              <Image
-                                onClick={() => {
-                                  router.push(`/place/${l._id.toString()}`);
-                                }}
-                                src={
-                                  "data:image/jpeg;base64," +
-                                  l.roomTwo.images[0].data.toString("base64")
-                                }
-                                width={300}
-                                height={300}
-                                alt=""
-                              />
-                            </div>
-                          </Carousel>
+                     
                           <div
                             className={styles2["card--details"]}
                             onClick={() => {

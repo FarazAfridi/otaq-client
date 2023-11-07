@@ -6,6 +6,7 @@ import Testimonials from "./../components/testimonials/testimonials";
 import { useEffect, useState } from "react";
 import TopDestinations from "@/components/top-destinations/topDestinations";
 import NewCard from "@/components/card/newCard";
+import { headers } from "next.config";
 
 export default function Home() {
   const [places, setPlaces] = useState([]);
@@ -16,7 +17,7 @@ export default function Home() {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:4000/places/add/favourites",
+        "https://otaq-api.onrender.com/places/add/favourites",
         {
           method: "POST",
           headers: {
@@ -39,7 +40,7 @@ export default function Home() {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:4000/places/remove/favourites",
+        "https://otaq-api.onrender.com/places/remove/favourites",
         {
           method: "POST",
           headers: {
@@ -78,7 +79,11 @@ export default function Home() {
   useEffect(() => {
     async function getPlaces() {
       const resp = await fetch(
-        "http://localhost:4000/places/get/approved"
+        "https://otaq-api.onrender.com/places/get/approved",{
+          headers: {
+              "Content-Type": "application/json",     
+          }
+        }
       );
       const data = await resp.json();
 
@@ -89,7 +94,7 @@ export default function Home() {
       if (typeof window !== "undefined") {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          "http://localhost:4000/places/get/favourites",
+          "https://otaq-api.onrender.com/places/get/favourites",
           {
             headers: {
               "Content-Type": "application/json",
@@ -111,7 +116,7 @@ export default function Home() {
     if (!values.query && !values.city) return;
     if (values.city) {
       const url =
-        "http://localhost:4000/places/get/approved?city=" +
+        "https://otaq-api.onrender.com/places/get/approved?city=" +
         values.city +
         "&searchquery=" +
         values.query;

@@ -10,7 +10,7 @@ export default function TableRows(props) {
       const id = props.tableRows[5]._id;
       if (id) {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:4000/approve/order", {
+        const response = await fetch("https://otaq-api.onrender.com/approve/order", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -32,7 +32,7 @@ export default function TableRows(props) {
     } else if (value === "Rejected") {
       const id = props.tableRows[5]._id;
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:4000/places/reject/order", {
+      const response = await fetch("https://otaq-api.onrender.com/places/reject/order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

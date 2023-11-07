@@ -57,7 +57,7 @@ export default function SinglePlace() {
     } else {
       axios
         .post(
-          "http://localhost:4000/places/book",
+          "https://otaq-api.onrender.com/places/book",
           {
             placeId: place._id,
             startDate: startDate.current.value,
@@ -109,7 +109,7 @@ export default function SinglePlace() {
     async function getPlace() {
       if (router.isReady) {
         const resp = await fetch(
-          `http://localhost:4000/places/get/approved/${pid}`
+          `https://otaq-api.onrender.com/places/get/approved/${pid}`
         );
         const data = await resp.json();
         console.log(data)
@@ -135,8 +135,7 @@ export default function SinglePlace() {
             <Image
               className={styles["card--banner"]}
               src={
-                "data:image/jpeg;base64," +
-                place.roomOne.images[0].data.toString("base64")
+                place.roomOne.images[0].data
               }
               alt=""
               fill
@@ -192,8 +191,7 @@ export default function SinglePlace() {
                       {room[0].images.map((r, i) => i !== 2 ? <Image
                       key={i}
                         src={
-                          "data:image/jpeg;base64," +
-                          room[0].images[i].data.toString("base64")
+                          room[0].images[i].data
                         }
                         alt=""
                         width={300}
@@ -204,8 +202,7 @@ export default function SinglePlace() {
                     {room[0].images.map((r, i) => i >= 2 ? <Image
                       key={i}
                         src={
-                          "data:image/jpeg;base64," +
-                          room[0].images[i].data.toString("base64")
+                          room[0].images[i].data
                         }
                         alt=""
                         width={300}

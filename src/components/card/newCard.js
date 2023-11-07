@@ -71,12 +71,12 @@ export default function NewCard(props) {
                     allowTouchMove={false}
                   >
                     {[
-                      "data:image/jpeg;base64," +
-                        place.roomOne.images[0].data.toString("base64"),
-                      "data:image/jpeg;base64," +
-                        place.roomTwo.images[1].data.toString("base64"),
-                      "data:image/jpeg;base64," +
-                        place.roomThree.images[2].data.toString("base64"),
+                      
+                        place.roomOne.images[0].data,
+                     
+                        place.roomTwo.images[1].data,
+                     
+                        place.roomThree.images[0].data,
                     ].map((picture) => {
                       return (
                         <SwiperSlide key={picture}>
