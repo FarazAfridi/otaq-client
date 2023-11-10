@@ -87,7 +87,7 @@ export default function Admin() {
         if (typeof window !== "undefined") {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "https://otaq-api.onrender.com/places/get/unapproved",
+            "http://localhost:4000/places/get/unapproved",
             {
               headers: {
                 Authorization: `Bearer ${token}`,

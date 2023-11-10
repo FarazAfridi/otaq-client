@@ -5,8 +5,10 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import checkIcon from "@/assets/check.svg";
 import cancel from "@/assets/close.svg";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 export default function PlaceApproval(props) {
+  console.log(props)
 
   const router = useRouter()
 
@@ -74,7 +76,7 @@ export default function PlaceApproval(props) {
  
           <div className={styles.card__image_container}>
             <Image
-              src={props.images[0].data && props.images[0].data}
+              src={props.images[0] && props.images[0].data}
               width={300}
               height={300}
               alt=""

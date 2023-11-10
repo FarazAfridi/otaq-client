@@ -5,8 +5,9 @@ import styles2 from "@/components/card/card.module.css";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from "react-responsive-carousel";
 import { toast } from "react-toastify";
+import Popup from "reactjs-popup";
+import PopupForm from './../../components/popupForm/popupForm';
 
 export default function Dashboard() {
   const [tab, setTab] = useState("dashboard");
@@ -22,6 +23,48 @@ export default function Dashboard() {
     password: "",
   });
 
+  async function updateListing (placeId, roomOnePrice, roomTwoPrice, roomThreePrice) {
+    if (typeof window !== "undefined") {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          "http://localhost:4000/places/update/listing",
+          {
+            body: JSON.stringify({
+              placeId,
+              roomOnePrice,
+              roomTwoPrice,
+              roomThreePrice
+            }),
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            }
+          }
+        );
+        if (response.status === 401) {
+          toast("Session expired, Please login again", {
+            hideProgressBar: true,
+            autoClose: 2000,
+            type: "error",
+          });
+          localStorage.removeItem("token");
+          router.push("/login");
+          return;
+        }
+        const data = await response.json();
+        if(response.ok) {
+          toast("Place updated!", {
+            hideProgressBar: true,
+            autoClose: 2000,
+            type: "success",
+          });
+          router.reload()
+        }
+        
+    }
+  }
+ 
   useEffect(() => {
     if (!router.isReady) return;
     if (!router.query.tab || !router.query) {
@@ -35,16 +78,20 @@ export default function Dashboard() {
             "https://otaq-api.onrender.com/places/get/booking",
             {
               headers: {
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
               },
             }
           );
-          if(response.status === 401) {
-            toast("Session expired, Please login again", { hideProgressBar: true, autoClose: 2000, type: 'error' })
+          if (response.status === 401) {
+            toast("Session expired, Please login again", {
+              hideProgressBar: true,
+              autoClose: 2000,
+              type: "error",
+            });
             localStorage.removeItem("token");
-            router.push("/login")
-            return
+            router.push("/login");
+            return;
           }
           const data = await response.json();
           setBooking(data);
@@ -64,11 +111,15 @@ export default function Dashboard() {
               },
             }
           );
-          if(response.status === 401) {
-            toast("Session expired, Please login again", { hideProgressBar: true, autoClose: 2000, type: 'error' })
+          if (response.status === 401) {
+            toast("Session expired, Please login again", {
+              hideProgressBar: true,
+              autoClose: 2000,
+              type: "error",
+            });
             localStorage.removeItem("token");
-            router.push("/login")
-            return
+            router.push("/login");
+            return;
           }
           const data = await response.json();
           setUserSetting({
@@ -85,25 +136,29 @@ export default function Dashboard() {
         async function getListings() {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "https://otaq-api.onrender.com/places/get/listing",
+            "http://localhost:4000/places/get/listing",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
             }
           );
-          if(response.status === 401) {
-            toast("Session expired, Please login again", { hideProgressBar: true, autoClose: 2000, type: 'error' })
+          if (response.status === 401) {
+            toast("Session expired, Please login again", {
+              hideProgressBar: true,
+              autoClose: 2000,
+              type: "error",
+            });
             localStorage.removeItem("token");
-            router.push("/login")
-            return
+            router.push("/login");
+            return;
           }
           const data = await response.json();
           setListing(data[0].listing);
         }
         getListings();
       }
-    }  else if (router.query.tab === "favourites") {
+    } else if (router.query.tab === "favourites") {
       setTab(router.query.tab);
       if (typeof window !== "undefined") {
         async function getFavourites() {
@@ -116,11 +171,15 @@ export default function Dashboard() {
               },
             }
           );
-          if(response.status === 401) {
-            toast("Session expired, Please login again", { hideProgressBar: true, autoClose: 2000, type: 'error' })
+          if (response.status === 401) {
+            toast("Session expired, Please login again", {
+              hideProgressBar: true,
+              autoClose: 2000,
+              type: "error",
+            });
             localStorage.removeItem("token");
-            router.push("/login")
-            return
+            router.push("/login");
+            return;
           }
           const data = await response.json();
           setFavourites(data);
@@ -155,6 +214,7 @@ export default function Dashboard() {
   };
 
   function getTotalRent(order) {
+    console.log(order, 'order')
     const room = [
       order.place.roomOne,
       order.place.roomTwo,
@@ -312,88 +372,18 @@ export default function Dashboard() {
                     {listing.map((l) => {
                       return (
                         <div key={l._id.toString()} className={styles2.card}>
-                            <div className={styles2.card__image_container}>
-                              <Image
-                                onClick={() => {
-                                  router.push(`/place/${l._id.toString()}`);
-                                }}
-                                src={ 
-                                  l.roomOne.images[0].data
-                                }
-                                width={300}
-                                height={300}
-                                alt=""
-                              />
-                            </div>
-                           
-                            
-                
-                          <div
-                            className={styles2["card--details"]}
-                            onClick={() => {
-                              router.push(`/place/${l._id.toString()}`);
-                            }}
-                          >
-                            <div className={styles2.col}>
-                              <p className={styles2.card__name}>{l.name}</p>
-                              <div className={styles2.card__price_container}>
-                                <span className={styles2.card__price}>
-                                  Rs{l.price}
-                                </span>
-                                <span className={styles2.card__night}>
-                                  /night
-                                </span>
-                              </div>
-                            </div>
-                            <div className="divider"></div>
-                            <div className={styles2["card--info"]}>
-                              <p className={styles2.card__distance}>
-                                3000m elevation
-                              </p>
-                              <p className={styles2.card__date}>{l.roomType}</p>
-                            </div>
+                          <div className={styles2.card__image_container}>
+                            <Image
+                              onClick={() => {
+                                router.push(`/place/${l._id.toString()}`);
+                              }}
+                              src={l.roomOne.images[0].data}
+                              width={300}
+                              height={300}
+                              alt=""
+                            />
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <h1>No Places Listed</h1>
-                )}
-              </div>
-            ) : null } 
 
-            {tab === "favourites" ? (
-              <div className={styles.card_main_container}>
-                <div className={styles["section-top--card"]}>
-                  <h2>Listed Places</h2>
-                </div>
-                {favourites.length > 0 ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      justifyContent: "space-around",
-                    }}
-                  >
-                    {favourites.map((l) => {
-                      return (
-                        <div key={l._id.toString()} className={styles2.card}>
-                    
-                            <div className={styles2.card__image_container}>
-                              <Image
-                                onClick={() => {
-                                  router.push(`/place/${l._id.toString()}`);
-                                }}
-                                src={
-                                  l.roomThree.images[0].data
-                                }
-                                width={300}
-                                height={300}
-                                alt=""
-                              />
-                            </div>
-                     
                           <div
                             className={styles2["card--details"]}
                             onClick={() => {
@@ -414,11 +404,74 @@ export default function Dashboard() {
                             <div className="divider"></div>
                             <div className={styles2["card--info"]}>
                               <p className={styles2.card__distance}>
-                               {l.description}
+                                3000m elevation
                               </p>
+                              <p className={styles2.card__date}>{l.roomType}</p>
+                            </div>
+                          </div>
+                         <PopupForm updateListing={updateListing} buttonText="Edit" id={l._id} price={[l.roomOne.price, l.roomTwo.price, l.roomThree.price]} />
+                        </div>
+                      );
+                    })}
+                    
+                  </div>
+                ) : (
+                  <h1>No Places Listed</h1>
+                )}
+              </div>
+            ) : null}
+
+            {tab === "favourites" ? (
+              <div className={styles.card_main_container}>
+                <div className={styles["section-top--card"]}>
+                  <h2>Listed Places</h2>
+                </div>
+                {favourites.length > 0 ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    {favourites.map((l) => {
+                      return (
+                        <div key={l._id.toString()} className={styles2.card}>
+                          <div className={styles2.card__image_container}>
+                            <Image
+                              onClick={() => {
+                                router.push(`/place/${l._id.toString()}`);
+                              }}
+                              src={l.roomThree.images[0].data}
+                              width={300}
+                              height={300}
+                              alt=""
+                            />
+                          </div>
+
+                          <div
+                            className={styles2["card--details"]}
+                            onClick={() => {
+                              router.push(`/place/${l._id.toString()}`);
+                            }}
+                          >
+                            <div className={styles2.col}>
+                              <p className={styles2.card__name}>{l.name}</p>
+                              <div className={styles2.card__price_container}>
+                                <span className={styles2.card__price}>
+                                  Rs{l.roomOne.price}
+                                </span>
+                                <span className={styles2.card__night}>
+                                  /night
+                                </span>
+                              </div>
+                            </div>
+                            <div className="divider"></div>
+                            <div className={styles2["card--info"]}>
                               <p className={styles2.card__distance}>
-                               {l.city}
+                                {l.description}
                               </p>
+                              <p className={styles2.card__distance}>{l.city}</p>
                               <p className={styles2.card__date}>{l.roomType}</p>
                             </div>
                           </div>
@@ -430,9 +483,9 @@ export default function Dashboard() {
                   <h1>No Favourite Places Found</h1>
                 )}
               </div>
-            ) : null } 
+            ) : null}
 
-            { tab === "dashboard" ? (
+            {tab === "dashboard" ? (
               <div className={styles.dashboard_cards}>
                 <div className={styles.dashboard_card}>
                   <div className={styles.dashboard_card_upper_child}>
@@ -498,8 +551,8 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
-            ) : null} 
-            { tab === "bookedPlaces" ? (
+            ) : null}
+            {tab === "bookedPlaces" ? (
               <div className={styles.card_main_container}>
                 <div className={styles["section-top--card"]}>
                   <h2>
