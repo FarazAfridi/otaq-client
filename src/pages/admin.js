@@ -4,6 +4,7 @@ import Table from "@/components/table/tableComponent";
 import { useRouter } from "next/router";
 import PlaceApprovalContainer from "@/components/placeApprovalContainer/placeApprovalContainer";
 import { toast } from "react-toastify";
+import ListingForm from "@/components/listingForm/listingForm";
 
 export default function Admin() {
   const router = useRouter();
@@ -118,6 +119,9 @@ export default function Admin() {
         }
         getOrders();
       }
+    } else if (router.query.tab === "listingForm") {
+      setTab(router.query.tab);
+     
     }
   }, [router.isReady, router.asPath]);
 
@@ -206,6 +210,17 @@ export default function Admin() {
               }
             >
               Orders
+            </button>
+            <button
+              className={tab === "listingForm" ? styles["active"] : "default-button"}
+              onClick={() =>
+                router.push({
+                  pathname: "/admin",
+                  query: { tab: "listingForm" },
+                })
+              }
+            >
+              Listing Form
             </button>
             <button
               className={
@@ -401,6 +416,8 @@ export default function Admin() {
                   />
                 </div>
               </div>
+            ) : tab === "listingForm" ? (
+              <ListingForm />
             ) : null}
           </div>
         </div>

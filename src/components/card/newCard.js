@@ -72,11 +72,11 @@ export default function NewCard(props) {
                   >
                     {[
                       
-                        place.roomOne.images[0].data,
+                      place.roomOne.images.length > 0 && place.roomOne.images[0].data,
                      
-                        place.roomTwo.images[1].data,
+                        place.roomTwo.images.length > 0 && place.roomTwo.images[0].data,
                      
-                        place.roomThree.images[0].data,
+                        place.roomThree.images.length > 0 && place.roomThree.images[0].data,
                     ].map((picture) => {
                       return (
                         <SwiperSlide key={picture}>

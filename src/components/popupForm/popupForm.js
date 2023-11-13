@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import Popup from "reactjs-popup";
 
 export default function PopupForm(props) {

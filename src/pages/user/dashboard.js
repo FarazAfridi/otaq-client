@@ -6,12 +6,13 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { toast } from "react-toastify";
-import Popup from "reactjs-popup";
 import PopupForm from './../../components/popupForm/popupForm';
+import ListingForm from "@/components/listingForm/listingForm";
 
 export default function Dashboard() {
   const [tab, setTab] = useState("dashboard");
   const [booking, setBooking] = useState([]);
+  const [listingBooking, setListingBooking] = useState([]);
   const [listing, setListing] = useState([]);
   const [favourites, setFavourites] = useState([]);
 
@@ -69,7 +70,7 @@ export default function Dashboard() {
     if (!router.isReady) return;
     if (!router.query.tab || !router.query) {
       setTab("dashboard");
-    } else if (router.query.tab === "bookedPlaces") {
+    } else if (router.query.tab === "myBookings") {
       setTab(router.query.tab);
       if (typeof window !== "undefined") {
         async function getUserBookings() {
@@ -154,6 +155,7 @@ export default function Dashboard() {
             return;
           }
           const data = await response.json();
+          console.log(data)
           setListing(data[0].listing);
         }
         getListings();
@@ -186,7 +188,39 @@ export default function Dashboard() {
         }
         getFavourites();
       }
-    }
+    } else if(router.query.tab === 'listingBookings') {
+      setTab(router.query.tab);
+     if (typeof window !== "undefined") {
+      async function getListingBookings() {
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          "http://localhost:4000/places/get/listing/bookings",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.status === 401) {
+          toast("Session expired, Please login again", {
+            hideProgressBar: true,
+            autoClose: 2000,
+            type: "error",
+          });
+          localStorage.removeItem("token");
+          router.push("/login");
+          return;
+        }
+        const data = await response.json();
+        console.log(data)
+        setListingBooking(data)
+      }
+      getListingBookings();
+    } 
+  } else if(router.query.tab === 'listingForm' &&  localStorage.getItem("role") === 'Vendor' ) { 
+    setTab(router.query.tab);
+
+  }
   }, [router.isReady, router.asPath]);
 
   const handleChange = async () => {
@@ -214,7 +248,6 @@ export default function Dashboard() {
   };
 
   function getTotalRent(order) {
-    console.log(order, 'order')
     const room = [
       order.place.roomOne,
       order.place.roomTwo,
@@ -258,17 +291,30 @@ export default function Dashboard() {
             </button>
             <button
               className={
-                tab === "bookedPlaces" ? styles["active"] : "default-button"
+                tab === "myBookings" ? styles["active"] : "default-button"
               }
               onClick={() => {
                 router.push({
                   pathname: "/user/dashboard",
-                  query: { tab: "bookedPlaces" },
+                  query: { tab: "myBookings" },
                 });
               }}
             >
-              Booked Places
+              My Bookings
             </button>
+           {localStorage.getItem('role') === 'Vendor' ? <button
+              className={
+                tab === "listingForm" ? styles["active"] : "default-button"
+              }
+              onClick={() => {
+                router.push({
+                  pathname: "/user/dashboard",
+                  query: { tab: "listingForm" },
+                });
+              }}
+            >
+              Listing Form
+            </button> : null}
             <button
               className={
                 tab === "favourites" ? styles["active"] : "default-button"
@@ -294,6 +340,19 @@ export default function Dashboard() {
               }}
             >
               Listed Places
+            </button>
+            <button
+              className={
+                tab === "listingBookings" ? styles["active"] : "default-button"
+              }
+              onClick={() => {
+                router.push({
+                  pathname: "/user/dashboard",
+                  query: { tab: "listingBookings" },
+                });
+              }}
+            >
+             Listing Bookings
             </button>
             <button
               className={
@@ -442,7 +501,7 @@ export default function Dashboard() {
                               onClick={() => {
                                 router.push(`/place/${l._id.toString()}`);
                               }}
-                              src={l.roomThree.images[0].data}
+                              src={l.roomOne.images[0].data}
                               width={300}
                               height={300}
                               alt=""
@@ -497,7 +556,7 @@ export default function Dashboard() {
                     onClick={() => {
                       router.push({
                         pathname: "/user/dashboard",
-                        query: { tab: "bookedPlaces" },
+                        query: { tab: "myBookings" },
                       });
                     }}
                   >
@@ -514,7 +573,7 @@ export default function Dashboard() {
                     onClick={() => {
                       router.push({
                         pathname: "/user/dashboard",
-                        query: { tab: "bookedPlaces" },
+                        query: { tab: "myBookings" },
                       });
                     }}
                   >
@@ -552,7 +611,7 @@ export default function Dashboard() {
                 </div>
               </div>
             ) : null}
-            {tab === "bookedPlaces" ? (
+            {tab === "myBookings" ? (
               <div className={styles.card_main_container}>
                 <div className={styles["section-top--card"]}>
                   <h2>
@@ -585,6 +644,43 @@ export default function Dashboard() {
                   />
                 </div>
               </div>
+            ) : null}
+            {tab === "listingBookings" ? (
+              <div className={styles.card_main_container}>
+                <div className={styles["section-top--card"]}>
+                  <h2>
+                    Total Amount Earned:{" "}
+                    {listingBooking
+                      ? listingBooking.reduce(
+                          (accumulator, currentValue) =>
+                            accumulator + getTotalRent(currentValue),
+                          0
+                        )
+                      : 0}
+                  </h2>
+                </div>
+                <div className={styles["section-top--card"]}>
+                  <h2>Total Orders: {listingBooking ? listingBooking.length : 0}</h2>
+                </div>
+                <div>
+                  <Table
+                    getTotalRent={getTotalRent}
+                    tableData={listingBooking}
+                    tableHeadings={[
+                      "Id:",
+                      "Booked by:",
+                      "Email:",
+                      "Place:",
+                      "Payment:",
+                      "Status:",
+                    ]}
+                    type="orders"
+                  />
+                </div>
+              </div>
+            ) : null}
+            {tab === "listingForm" ? (
+              <ListingForm />
             ) : null}
           </div>
         </div>
