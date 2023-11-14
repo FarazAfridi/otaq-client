@@ -1,0 +1,43 @@
+.button_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.button {
+  height: 30px;
+  width: 100%;
+  border: none;
+  background-color: #E63259;
+  outline: none;
+  padding: 0 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  color: white;
+}
+
+.form_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.submit_button {
+  font-size: 22px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.label {
+  margin: 10px 0;
+}
+
+.close {
+  display: block;
+  margin-left: auto;
+}

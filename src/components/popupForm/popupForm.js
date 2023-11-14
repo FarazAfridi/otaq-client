@@ -1,11 +1,9 @@
-import { useRouter } from "next/router";
 import { useState } from "react";
 import Popup from "reactjs-popup";
+import styles from "./popup.module.css";
+import Image from "next/image";
 
 export default function PopupForm(props) {
-
-  const router = useRouter()
-
   const [roomPrice, setRoomPrice] = useState({
     roomOnePrice: props.price[0],
     roomTwoPrice: props.price[1],
@@ -23,59 +21,52 @@ export default function PopupForm(props) {
 
   return (
     <Popup
-      trigger={<button className="button">{props.buttonText}</button>}
+      trigger={
+        <div className={styles.button_container}>
+          <button className={styles.button}>{props.buttonText}</button>
+        </div>
+      }
       modal
       nested
     >
       {(close) => (
-        <div className="modal">
-          <button className="close" onClick={close}>
-            &times;
+        <div className={styles.main_popup}>
+          <button className={styles.close} onClick={close}>
+            <Image src="/images/close.svg" width={30} height={30} />
           </button>
-
-          <div>
-            <input type="text" value="some place" />
-            <label>Deluxe Price</label>
+          <div className={styles.form_container}>
+            <label className={styles.label}>Deluxe Price</label>
             <input
+              required
+              className={styles.input}
               onChange={(e) =>
                 setRoomPrice({ ...roomPrice, roomOnePrice: e.target.value })
               }
               type="number"
               value={roomPrice.roomOnePrice}
             />
-            <label>Executive Price</label>
+            <label className={styles.label}>Executive Price</label>
             <input
+              className={styles.input}
+              required
               onChange={(e) =>
                 setRoomPrice({ ...roomPrice, roomTwoPrice: e.target.value })
               }
               type="number"
               value={roomPrice.roomTwoPrice}
             />
-            <label>Super Deluxe Price</label>
+            <label className={styles.label}>Super Deluxe Price</label>
             <input
+              required
+              className={styles.input}
               onChange={(e) =>
                 setRoomPrice({ ...roomPrice, roomThreePrice: e.target.value })
               }
               type="number"
               value={roomPrice.roomThreePrice}
             />
-            <button onClick={handleForm}>Submit</button>
-          </div>
-
-          <div className="actions">
-            <Popup
-              trigger={<button className="button"> Trigger </button>}
-              position="top center"
-              nested
-            ></Popup>
-            <button
-              className="button"
-              onClick={() => {
-                console.log("modal closed ");
-                close();
-              }}
-            >
-              close modal
+            <button className={styles.submit_button} onClick={handleForm}>
+              Submit
             </button>
           </div>
         </div>

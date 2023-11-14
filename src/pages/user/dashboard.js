@@ -11,6 +11,7 @@ import ListingForm from "@/components/listingForm/listingForm";
 
 export default function Dashboard() {
   const [tab, setTab] = useState("dashboard");
+  const [role, setRole] = useState('')
   const [booking, setBooking] = useState([]);
   const [listingBooking, setListingBooking] = useState([]);
   const [listing, setListing] = useState([]);
@@ -217,9 +218,12 @@ export default function Dashboard() {
       }
       getListingBookings();
     } 
-  } else if(router.query.tab === 'listingForm' &&  localStorage.getItem("role") === 'Vendor' ) { 
+  } else if(router.query.tab === 'listingForm' &&  window.localStorage.getItem("role") === 'Vendor' ) { 
     setTab(router.query.tab);
 
+  }
+  if(typeof window !== undefined) {
+    setRole(localStorage.getItem('role'))
   }
   }, [router.isReady, router.asPath]);
 
@@ -302,7 +306,7 @@ export default function Dashboard() {
             >
               My Bookings
             </button>
-           {localStorage.getItem('role') === 'Vendor' ? <button
+           {role === 'Vendor' ? <button
               className={
                 tab === "listingForm" ? styles["active"] : "default-button"
               }

@@ -574,3 +574,7 @@ body {
 .items li .text .price span {
   font-weight: 600;
 }
+
+.popup-content {
+  width: 300px !important;
+}
