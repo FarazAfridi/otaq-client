@@ -29,7 +29,7 @@ export default function Dashboard() {
     if (typeof window !== "undefined") {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          "http://localhost:4000/places/update/listing",
+          "https://otaq-api.onrender.com/places/update/listing",
           {
             body: JSON.stringify({
               placeId,
@@ -138,7 +138,7 @@ export default function Dashboard() {
         async function getListings() {
           const token = localStorage.getItem("token");
           const response = await fetch(
-            "http://localhost:4000/places/get/listing",
+            "https://otaq-api.onrender.com/places/get/listing",
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -195,7 +195,7 @@ export default function Dashboard() {
       async function getListingBookings() {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          "http://localhost:4000/places/get/listing/bookings",
+          "https://otaq-api.onrender.com/places/get/listing/bookings",
           {
             headers: {
               Authorization: `Bearer ${token}`,
