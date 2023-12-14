@@ -38,7 +38,7 @@ const Navigation = () => {
     >
       <Layout>
         <div className={styles["header--items"]}>
-          <Image
+          {/* <Image
             onClick={() => {
               setIsMobileNavbar(!isMobileNavbar);
             }}
@@ -46,10 +46,10 @@ const Navigation = () => {
             src={menuIcon}
             alt="menu icon"
             width={32}
-          />
-          {/* <NavigationItems isMobileNavbar={isMobileNavbar}/> */}
-          {isMobileNavbar ? <MobileNavigationItems /> : <NavigationItems />}
+          /> */}
 
+          {/* {isMobileNavbar ? <MobileNavigationItems /> : <NavigationItems />} */}
+          <NavigationItems />
           <div className={styles["header--items--container"]}>
             <div className={styles["header__account--options"]}>
               <div style={{ display: "flex" }}>

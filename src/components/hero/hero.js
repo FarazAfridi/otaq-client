@@ -8,7 +8,7 @@ const Hero = (props) => {
   return (
     <div className={styles.hero_container}>
       <Navigation />
-      <MainSlider search={props.search}  />
+      {/* <MainSlider search={props.search}  /> */}
     </div>
   );
 }

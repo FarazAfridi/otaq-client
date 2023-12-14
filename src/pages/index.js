@@ -136,7 +136,7 @@ export default function Home() {
       <Hero search={handleSearch} />
       <Layout>
         <div className="divider"></div>
-        {/* <Search handleSearch={handleSearch} /> */}
+         {/* <Search handleSearch={handleSearch} />  */}
         <div className="divider"></div>
       </Layout>
       <div className="full-width">

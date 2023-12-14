@@ -4,7 +4,7 @@ import image from "@/assets/pfp.svg"
 import { Carousel } from "react-responsive-carousel";
 function Testimonials() {
   return (
-    <Carousel showThumbs={false} showStatus={false} interval={2000} infiniteLoop={true} autoPlay={true} transitionTime={500} >
+    <Carousel showThumbs={false} showStatus={false} interval={2000} infiniteLoop={true} autoPlay={true} transitionTime={500} swipeable={false} >
       <div className={styles["testimonials--container"]} id="testimonials">
         <Testimonial imageLink={image} username="Ayesha" userText="I had an amazing time on my trip to Kenjar Lake. The scenery was breathtaking and the locals were incredibly friendly. I highly recommend visiting!" />
         <Testimonial imageLink={image} username="Sarah" userText="I am so glad I booked my vacation through this tourism site. The staff was friendly and professional and the trip exceeded all of my expectations. I had an amazing time and can't wait to book my next vacation with them!" />

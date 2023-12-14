@@ -9,10 +9,8 @@ import { Carousel } from "react-responsive-carousel";
 export default function SinglePlace() {
   const router = useRouter();
   const { cid } = router.query;
-  const [places, setPlaces] = useState(null);
+  const [places, setPlaces] = useState([]);
   const [arePlacesLoaded, setArePlacesLoaded] = useState(false);
-
-  console.log(arePlacesLoaded, places)
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -56,53 +54,21 @@ export default function SinglePlace() {
            {!arePlacesLoaded ? <Image className="loading" src="/loading.svg" alt="loading" width={32} height={32}/> : null}
         </div>
 
-        {arePlacesLoaded && places.length !== 0
+        {places.length !== 0
           ? places.map((place, i) => (
               <div key={place._id.toString()} className={styles.card}>
-                <Carousel
-                  showStatus={false}
-                  interval={2000}
-                  infiniteLoop={false}
-                  autoPlay={true}
-                  transitionTime={500}
-                  showThumbs={false}
-                  showIndicators={false}
-                >
                  
                   <div className={styles.card__image_container}>
                     <Image
                       onClick={() => {
                         router.push(`/place/${place._id.toString()}`);
                       }}
-                      src={'data:image/jpeg;base64,' + place.roomOne.images[0].data.toString('base64')}
+                      src={place.roomOne.images[0].data}
                       width={300}
                       height={300}
                       alt=""
                     />
                   </div>
-                  <div className={styles.card__image_container}>
-                    <Image
-                      onClick={() => {
-                        router.push(`/place/${place._id.toString()}`);
-                      }}
-                      src={'data:image/jpeg;base64,' + place.roomTwo.images[1].data.toString('base64')}
-                      width={300}
-                      height={300}
-                      alt=""
-                    />
-                  </div>
-                  <div className={styles.card__image_container}>
-                    <Image
-                      onClick={() => {
-                        router.push(`/place/${place._id.toString()}`);
-                      }}
-                      src={'data:image/jpeg;base64,' + place.roomThree.images[2].data.toString('base64')}
-                      width={300}
-                      height={300}
-                      alt=""
-                    />
-                  </div>
-                </Carousel>
                 <div
                   className={styles["card--details"]}
                   onClick={() => {
@@ -126,7 +92,8 @@ export default function SinglePlace() {
                 </div>
               </div>
             ))
-          : <h1>No Search Result Found</h1>}
+          : null }
+          {arePlacesLoaded && places.length === 0 && <h1>No Search Result Found</h1>}
       </div>
     </Layout>
   );

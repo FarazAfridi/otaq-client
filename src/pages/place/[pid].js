@@ -1,7 +1,5 @@
 import styles from "@/styles/cardPage.module.css";
 import Image from "next/image";
-import heartIcon from "@/assets/heart-icon.svg";
-import uploadIcon from "@/assets/upload-icon.svg";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -262,7 +260,7 @@ export default function SinglePlace() {
                       <span>{room[0].price * days}</span>
                     </div>
                     <div className={styles.row}>
-                      <span>Weekly stay discount</span>
+                      <a href="">Weekly stay discount</a>
                       <span>00.00</span>
                     </div>
                     <div className={styles.row}>

@@ -1,0 +1,54 @@
+.main_popup {
+     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    background-color: white;
+    border-radius: 10px;
+    row-gap: 10px;
+    padding: 20px;
+    z-index: 10000;
+}
+.close {
+    display: block;
+    margin-left: auto;
+}
+  
+  .reservation h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  
+  }
+  
+  .reservation input,.select {
+    height: 50px;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border: 1px solid #B0B0B0;
+    border-radius: 5px;
+    width: 100%;
+    background-color: white;
+    margin: 10px 0;
+  }
+  
+  .reservation .area--input::placeholder,.select {
+    color: gray;
+    opacity: 1;
+  }
+  
+  .row {
+    display: flex;
+    column-gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .reservation {
+      margin: 0;
+    }
+    .reservation--container {
+      justify-content: center;
+    }
+  }
